@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.raw import types, functions
-from ..tils.utils import modules_help, prefix
+from ..utils.utils import modules_help, prefix
 
 import requests
 from PIL import Image, ImageFont, ImageDraw
