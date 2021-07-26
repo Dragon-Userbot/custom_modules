@@ -1,3 +1,4 @@
+"""
 import os
 from .utils.utils import modules_help, prefix
 
@@ -128,3 +129,4 @@ modules_help.update({'voice_chat': '''play - Reply to a message containing audio
                                       pause - Pause, 
                                       resume - Resume''',
                      'voice_chat module': 'Voice_chat: play, volume, join, leave_voice, stop, mute, unmute, pause, resume'})
+"""
