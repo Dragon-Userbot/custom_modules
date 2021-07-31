@@ -1,7 +1,7 @@
 # original module https://raw.githubusercontent.com/KeyZenD/modules/master/MirrorFlipV2.py
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from .utils.utils import modules_help, prefix
+from ..utils.utils import modules_help, prefix
 from PIL import Image, ImageOps
 from io import BytesIO
 from asyncio import sleep
