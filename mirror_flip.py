@@ -58,5 +58,5 @@ async def mirror_flip(client: Client, message: Message):
     await make(client, message, param)
 
 
-modules_help.update({'mirror_flip': '''ll - [number(1-4)] Creates a mirrored image/sticker reflection depends on the number''',
+modules_help.update({'mirror_flip': '''ll - [number(1–4)] Creates a mirrored image/sticker reflection depends on the number''',
                       'mirror_flip module': 'Mirror_flip: ll'})
