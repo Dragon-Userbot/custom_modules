@@ -1,26 +1,20 @@
-# original module https://raw.githubusercontent.com/KeyZenD/modules/master/MirrorFlipV2.py
+# original module https://raw.githubusercontent.com/KeyZenD/modules/master/MirrorFlipV2.py | t.me/the_kzd
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from ..utils.utils import modules_help, prefix
 from PIL import Image, ImageOps
-from io import BytesIO
-from asyncio import sleep
 import os
+import html
 
 async def make(client, message, o):
     reply = message.reply_to_message
-    s = None
-
     if reply.photo or reply.sticker:
         if reply.photo:
-            donwloads = await client.download_media(reply.photo.file_id)
+            downloads = await client.download_media(reply.photo.file_id)
         elif reply.sticker:
-            donwloads = await client.download_media(reply.sticker.file_id)
-
-        f = open(f"{donwloads}", "rb")
-
-        img = Image.open(BytesIO(f.read()))
-
+            downloads = await client.download_media(reply.sticker.file_id)
+        path = f"{downloads}"
+        img = Image.open(path)
         await message.delete()
         w, h = img.size
         if o in [1, 2]:
@@ -34,29 +28,27 @@ async def make(client, message, o):
             part = img.crop([0, 0, w, h//2])
             img = ImageOps.flip(img)
         img.paste(part, (0, 0))
-        out = BytesIO()
-        out.name = "x.webp" if reply.sticker else "x.png"
-        img.save(out)
-        out.seek(0)
+        img.save(path)
         if reply.photo:
-            return await reply.reply_photo(photo=out)
+            return await reply.reply_photo(photo=path)
         elif reply.sticker:
-            return await reply.reply_sticker(sticker=out)
-
-        os.remove(donwloads)
+            return await reply.reply_sticker(sticker=path)
+        os.remove(path)
 
     return await message.edit("<b>Need to answer the photo/sticker</b>")
 
-@Client.on_message(filters.command('ll', prefix) & filters.me)
+@Client.on_message(filters.command(['ll', 'rr', 'dd', 'uu'], prefix) & filters.me)
 async def mirror_flip(client: Client, message: Message):
     await message.edit('<code>Processing...</code>')
-    if len(message.command) > 1:
-        param = message.command[1]
-        
-    else:
-        param = 1
+    param = {"ll":1, "rr":2, "dd":3, "uu":4}[message.command[0]]
     await make(client, message, param)
 
 
-modules_help.update({'mirror_flip': '''ll - [number(1–4)] Creates a mirrored image/sticker reflection depends on the number''',
-                      'mirror_flip module': 'Mirror_flip: ll'})
+modules_help.update({'mirror_flip': html.escape('''ll <reply on photo or sticker>
+- reflects the left side,
+rr <reply on photo or sticker>
+- reflects the right side,
+uu <reply on photo or sticker>
+- reflects the top,
+dd <reply on photo or sticker>
+- reflects the bottom'''), 'mirror_flip module': 'Mirror_flip: ll, rr, uu, dd'})
