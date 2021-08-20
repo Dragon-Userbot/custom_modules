@@ -31,4 +31,4 @@ async def global_clear_handler(c: Client, m: Message):
         await c.send(request)
 
 modules_help.update({'clear_mentions': '''clear_@ - clears all mentions in chat where was sent, clear_all_@ - clears all mentions in all chats''',
-                     'clear_mentions module': 'Clear mentions: clear_@, clear_all_@'})
+                     'clear_mentions module': 'Clear_mentions: clear_@, clear_all_@'})
