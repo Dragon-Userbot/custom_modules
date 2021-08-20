@@ -8,7 +8,7 @@ from ..utils.utils import modules_help, prefix
 @Client.on_message(filters.command(['clear_@'], prefix) & filters.me)
 async def solo_clear_handler(c: Client, m: Message):
     await m.delete()
-    peer = c.resolve_peer(m.chat.id)
+    peer = await c.resolve_peer(m.chat.id)
     request = functions.messages.ReadMentions(peer=peer)
     await c.send(request)
 
