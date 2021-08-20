@@ -6,14 +6,14 @@ from pyrogram.raw import functions, types
 from ..utils.utils import modules_help, prefix
 
 @Client.on_message(filters.command(['clear_@'], prefix) & filters.me)
-async def handler(c: Client, m: Message):
+async def solo_clear_handler(c: Client, m: Message):
     await m.delete()
     peer = c.resolve_peer(m.chat.id)
     request = functions.messages.ReadMentions(peer=peer)
     await c.send(request)
 
 @Client.on_message(filters.command(['clear_all_@'], prefix) & filters.me)
-async def handler(c: Client, m: Message):
+async def global_clear_handler(c: Client, m: Message):
     request = functions.messages.GetAllChats(except_ids=[])
     try:
         result = await c.send(request)
