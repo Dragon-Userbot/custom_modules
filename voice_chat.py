@@ -123,8 +123,8 @@ modules_help.update({'voice_chat': '''play - Reply to a message containing audio
                                       join - Join the voice chat,
                                       leave_voice - Leave voice chat,
                                       stop - Stop playback,
-                                      mute - Mute the userbot,
-                                      unmute - Unmute the userbot,
+                                      vmute - Mute the userbot,
+                                      vunmute - Unmute the userbot,
                                       pause - Pause, 
                                       resume - Resume''',
-                     'voice_chat module': 'Voice_chat: play, volume, join, leave_voice, stop, mute, unmute, pause, resume'})
+                     'voice_chat module': 'Voice_chat: play, volume, join, leave_voice, stop, vmute, vunmute, pause, resume'})
