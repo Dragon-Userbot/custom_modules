@@ -90,14 +90,14 @@ async def stop_playout(_, message: Message):
     await message.edit_text('<code>Stoping successfully!</code>')
 
 
-@Client.on_message(filters.command('mute', prefix) & filters.me)
+@Client.on_message(filters.command('vmute', prefix) & filters.me)
 @init_client
 async def mute(_, message: Message):
     group_call.set_is_mute(True)
     await message.edit_text('<code>Sound off!</code>')
 
 
-@Client.on_message(filters.command('unmute', prefix) & filters.me)
+@Client.on_message(filters.command('vunmute', prefix) & filters.me)
 @init_client
 async def unmute(_, message: Message):
     group_call.set_is_mute(False)
