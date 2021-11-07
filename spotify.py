@@ -48,6 +48,10 @@ async def check_token():
                 db['acs_tkn'] = sp_auth.refresh_access_token(db.get('acs_tkn')["refresh_token"])
                 db['LastChange'] = crnt.isoformat()
                 write_db(db)
+        else:
+            crnt = datetime.datetime.now()
+            db['acs_tkn'] = sp_auth.refresh_access_token(db.get('acs_tkn')["refresh_token"])
+            db['LastChange'] = crnt.isoformat()
     await asyncio.sleep(3000)
     await check_token()
 
