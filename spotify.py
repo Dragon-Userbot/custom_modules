@@ -71,12 +71,16 @@ async def check_token():
                 db.get('acs_tkn')["refresh_token"]
             )
             db['LastChange'] = crnt.isoformat()
-    await asyncio.sleep(3000)
-    await check_token()
+    
+    
+async def check_token_loop():
+    while True:
+        await check_token()
+        await asyncio.sleep(3000)
 
-
+        
 loop = asyncio.get_event_loop()
-loop.create_task(check_token())
+loop.create_task(check_token_loop())
 
 
 @Client.on_message(filters.command('auth', prefix) & filters.me)
