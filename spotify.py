@@ -212,7 +212,7 @@ async def repeat(client: Client, message: Message):
                 '🔂Поставлено на репит успешно. Счастливого прослушивания!'
             )
         except:
-            await message.edit('⚠️Что-то пошло не так. бедитесь, что трек играет.')
+            await message.edit('⚠️Что-то пошло не так. убедитесь, что трек играет.')
 
 
 @Client.on_message(filters.command('derepeat', prefix) & filters.me)
@@ -226,7 +226,7 @@ async def derepeat(client: Client, message: Message):
             sp.repeat('context')
             await message.edit('🎶Снято с репита успешно.')
         except:
-            await message.edit('⚠️Что-то пошло не так. бедитесь, что трек играет.')
+            await message.edit('⚠️Что-то пошло не так. убедитесь, что трек играет.')
 
 
 @Client.on_message(filters.command('next', prefix) & filters.me)
@@ -240,7 +240,7 @@ async def next(client: Client, message: Message):
             sp.next_track()
             await message.edit('⏭️Трек переключен успешно.')
         except:
-            await message.edit('⚠️Что-то пошло не так. бедитесь, что трек играет.')
+            await message.edit('⚠️Что-то пошло не так. убедитесь, что трек играет.')
 
 
 @Client.on_message(filters.command('pausetr', prefix) & filters.me)
@@ -254,7 +254,7 @@ async def pausetr(client: Client, message: Message):
             sp.pause_playback()
             await message.edit('⏸️Поставлено на паузу успешно.')
         except:
-            await message.edit('⚠️Что-то пошло не так. бедитесь, что трек играет.')
+            await message.edit('⚠️Что-то пошло не так. убедитесь, что трек играет.')
 
 
 @Client.on_message(filters.command('unpausetr', prefix) & filters.me)
@@ -268,7 +268,7 @@ async def unpausetr(client: Client, message: Message):
             sp.start_playback()
             await message.edit('▶️Снято с паузы успешно')
         except:
-            await message.edit('⚠️Что-то пошло не так. бедитесь, что трек играет.')
+            await message.edit('⚠️Что-то пошло не так. убедитесь, что трек играет.')
 
 
 @Client.on_message(filters.command('back', prefix) & filters.me)
@@ -282,7 +282,7 @@ async def back(client: Client, message: Message):
             sp.previous_track()
             await message.edit('◀️Вернул трек назад успешно.')
         except:
-            await message.edit('⚠️Что-то пошло не так. бедитесь, что трек играет.')
+            await message.edit('⚠️Что-то пошло не так. убедитесь, что трек играет.')
 
 
 @Client.on_message(filters.command('restr', prefix) & filters.me)
@@ -296,7 +296,7 @@ async def restr(client: Client, message: Message):
             sp.seek_track(0)
             await message.edit('🔁Трек перезапущен.')
         except:
-            await message.edit('⚠️Что-то пошло не так. бедитесь, что трек играет.')
+            await message.edit('⚠️Что-то пошло не так. убедитесь, что трек играет.')
 
 
 @Client.on_message(filters.command('liketr', prefix) & filters.me)
@@ -311,4 +311,4 @@ async def liketr(client: Client, message: Message):
             sp.current_user_saved_tracks_add([cupl["item"]["id"]])
             await message.edit('💚Лайкнуто!')
         except:
-            await message.edit('⚠️Что-то пошло не так. бедитесь, что трек играет.')
+            await message.edit('⚠️Что-то пошло не так. убедитесь, что трек играет.')
