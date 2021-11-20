@@ -7,19 +7,19 @@
 ```python3
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from ..utils.utils import modules_help, requirements_list
+from ..utils.utils import modules_help, requirements_list, prefix
 
 # packages from PyPI
 #import example_1
 #import example_2
 
 
-@Client.on_message(filters.command('example_edit', ['.']) & filters.me)
+@Client.on_message(filters.command('bugurut', prefix) & filters.me)
 async def example_edit(client: Client, message: Message):
     await message.edit('<code>This is an example module</code>')
 
 
-@Client.on_message(filters.command('example_send', ['.']) & filters.me)
+@Client.on_message(filters.command('bugurut', prefix) & filters.me)
 async def example_send(client: Client, message: Message):
     await client.send_message(message.chat.id, '<b>This is an example module</b>')
 
