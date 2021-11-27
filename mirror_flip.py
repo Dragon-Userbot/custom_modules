@@ -54,6 +54,5 @@ modules_help.append(
             {"uu [reply on photo or sticker]*": "reflects the top"},
             {"dd [reply on photo or sticker]*": "reflects the bottom"},
         ]
-    },
-    {"mquotes": [{"mquote": "Reply on user message (for better result, use SQuotes)"}]},
+    }
 )
