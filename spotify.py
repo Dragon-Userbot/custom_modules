@@ -14,7 +14,7 @@ except:
     os.system("pip3 install spotipy")
     os.system("python3 main.py")
 
-modules_help.update(
+modules_help.append(
     {
         "spotify": [
             {"auth": "First auth step"},
