@@ -6,6 +6,7 @@ from PIL import Image, ImageOps
 import os
 import html
 
+
 async def make(client, message, o):
     reply = message.reply_to_message
     if reply.photo or reply.sticker:
@@ -20,12 +21,12 @@ async def make(client, message, o):
         if o in [1, 2]:
             if o == 2:
                 img = ImageOps.mirror(img)
-            part = img.crop([0, 0, w//2, h])
+            part = img.crop([0, 0, w // 2, h])
             img = ImageOps.mirror(img)
         else:
             if o == 4:
                 img = ImageOps.flip(img)
-            part = img.crop([0, 0, w, h//2])
+            part = img.crop([0, 0, w, h // 2])
             img = ImageOps.flip(img)
         img.paste(part, (0, 0))
         img.save(path)
@@ -37,18 +38,21 @@ async def make(client, message, o):
 
     return await message.edit("<b>Need to answer the photo/sticker</b>")
 
-@Client.on_message(filters.command(['ll', 'rr', 'dd', 'uu'], prefix) & filters.me)
+
+@Client.on_message(filters.command(["ll", "rr", "dd", "uu"], prefix) & filters.me)
 async def mirror_flip(client: Client, message: Message):
-    await message.edit('<code>Processing...</code>')
-    param = {"ll":1, "rr":2, "dd":3, "uu":4}[message.command[0]]
+    await message.edit("<code>Processing...</code>")
+    param = {"ll": 1, "rr": 2, "dd": 3, "uu": 4}[message.command[0]]
     await make(client, message, param)
 
 
-modules_help.update({'mirror_flip': html.escape('''ll <reply on photo or sticker>
-- reflects the left side,
-rr <reply on photo or sticker>
-- reflects the right side,
-uu <reply on photo or sticker>
-- reflects the top,
-dd <reply on photo or sticker>
-- reflects the bottom'''), 'mirror_flip module': 'Mirror_flip: ll, rr, uu, dd'})
+modules_help.append(
+    {
+        "mirror_flip": [
+            {"ll [reply on photo or sticker]*": "reflects the left side"},
+            {"rr [reply on photo or sticker]*": "reflects the right side"},
+            {"uu [reply on photo or sticker]*": "reflects the top"},
+            {"dd [reply on photo or sticker]*": "reflects the bottom"},
+        ]
+    }
+)

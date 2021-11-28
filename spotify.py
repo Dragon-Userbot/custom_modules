@@ -14,15 +14,23 @@ except:
     os.system("pip3 install spotipy")
     os.system("python3 main.py")
 
-mhelp = {
-    "spotify": """auth - Первая стадия авторизации, codeauth - Вторая стадия авторизации, now - Отобразить текущий трек, repeat - Поставить трек на репит, derepeat - Снять трек с репита, next - Включить следующий трек, back - Включить предыдущий трек, restr - Перезапустить текущий трек сначала, liketr - Лайкнуть текущий трек, pausetr - Поставить трек на паузу, unpausetr - Снять трек с паузы""",
-    "spotify module": (
-        "Spotify: now, repeat, derepeat, next, back, pausetr, unpausetr, restr, liketr,"
-        " auth, codeauth, unauth"
-    ),
-}
-
-modules_help.update(mhelp)
+modules_help.append(
+    {
+        "spotify": [
+            {"auth": "First auth step"},
+            {"codeauth": "Second auth step"},
+            {"now": "Display now playing track"},
+            {"repeat": "Set track on-repeat"},
+            {"derepeat": "Set track out from repeat"},
+            {"next": "Turn on next track"},
+            {"back": "Turn on previous track"},
+            {"restr": "Restart currently playing track from start"},
+            {"liketr": "Like current playing track"},
+            {"pausetr": "Pause current playing track"},
+            {"unpausetr": "Play currently paused track "},
+        ]
+    }
+)
 requirements_list.append("spotipy")
 
 client_id = "e0708753ab60499c89ce263de9b4f57a"

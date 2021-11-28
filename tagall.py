@@ -4,7 +4,7 @@ from ..utils.utils import modules_help, prefix
 import asyncio
 
 
-@Client.on_message(filters.command('tagall', prefix) & filters.me)
+@Client.on_message(filters.command("tagall", prefix) & filters.me)
 async def tagall(client: Client, message: Message):
     await message.delete()
     chat_id = message.chat.id
@@ -26,5 +26,4 @@ async def tagall(client: Client, message: Message):
             await asyncio.sleep(2)
 
 
-modules_help.update({'tagall': '''tagall - Tag all members''',
-                     'tagall module': 'Tagall: tagall'})
+modules_help.append({"tagall": [{"tagall": "Tag all members"}]})
