@@ -65,27 +65,28 @@ async def volume(_, message):
 @Client.on_message(filters.command("join", prefix) & filters.me)
 @init_client
 async def start(_, message: Message):
-    if await group_call.check_group_call():
-        await message.edit_text(
-            "<b>You are already connected to the voice channel!</b>"
-        )
-    else:
+    try:
         await group_call.start(message.chat.id)
         await message.edit_text("<code>Joining successfully!</code>")
+    except Exception as e:
+        await message.edit_text(
+            f"<b>An unexpected error has occurred: <code>{e}</code></b>"
+        )
 
 
 @Client.on_message(filters.command("leave_voice", prefix) & filters.me)
 @init_client
 async def stop(_, message: Message):
-    if await group_call.check_group_call():
-        try:
-            await group_call.stop()
-            await message.edit_text("<code>Leaving successfully!</code>")
-        except:
-            await message.edit_text("<code>Leaving successfully!</code>")
-            restart()
-    else:
-        await message.edit_text("<b>You're not in voice chat!</b>")
+    try:
+        await group_call.stop()
+        await message.edit_text("<code>Leaving successfully!</code>")
+    except Exception as e:
+        await message.edit_text(
+            f"<b>Аn unexpected error occurred [<code>{e}</code>]\n"
+            "The bot will try to exit the voice chat by restarting itself,"
+            "the bot will be unavailable for the next 4 seconds</b>"
+        )
+        restart()
 
 
 @Client.on_message(filters.command("stop", prefix) & filters.me)
