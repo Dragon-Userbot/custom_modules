@@ -1,8 +1,9 @@
 from pyrogram import Client, filters
+from pyrogram.errors import FloodWait
 from pyrogram.types import Message
 from ..utils import utils
 from ..utils.utils import modules_help, prefix
-
+import asyncio
 
 @Client.on_message(filters.command(["fwdall"], prefix) & filters.me)
 async def forward(client: Client, message: Message):
@@ -19,10 +20,18 @@ async def forward(client: Client, message: Message):
             async for msg in client.iter_history(message.chat.id, reverse=True):
                 msgs.append(msg.message_id)
                 if len(msgs) >= 100:
-                    await client.forward_messages(target.id, message.chat.id, msgs)
+                    try:
+                        await client.forward_messages(target.id, message.chat.id, msgs)
+                    except FloodWait as e:
+                        await asyncio.sleep(e.x)
+                        await client.forward_messages(target.id, message.chat.id, msgs)
                     msgs = []
             if len(msgs) > 0:
-                await client.forward_messages(target.id, message.chat.id, msgs)
+                try:
+                    await client.forward_messages(target.id, message.chat.id, msgs)
+                except FloodWait as e:
+                    await asyncio.sleep(e.x)
+                    await client.forward_messages(target.id, message.chat.id, msgs)
             await message.edit("<code>Done successfully.</code>", parse_mode="html")
     else:
         await message.edit("<code>No target passed.</code>", parse_mode="html")
