@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from .utils import utils
+from ..utils import utils
 from ..utils.utils import modules_help, prefix
 
 
