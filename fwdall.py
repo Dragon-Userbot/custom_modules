@@ -2,7 +2,7 @@ from re import L
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from .utils import utils
-from .utils.utils import modules_help, prefix
+from ..utils.utils import modules_help, prefix
 
 
 @Client.on_message(filters.command(["fwdall"], prefix) & filters.me)
