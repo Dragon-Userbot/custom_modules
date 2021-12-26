@@ -1,8 +1,9 @@
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from ..utils.utils import modules_help, prefix
-from random import randint
 from os import system, remove
+from random import randint
+
+from pyrogram import Client, filters
+
+from ..utils.utils import modules_help, prefix
 
 try:
     from wget import download

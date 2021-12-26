@@ -1,12 +1,13 @@
+import asyncio
+import datetime
+import json
+import os
+from math import ceil
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from ..utils.utils import modules_help, requirements_list, prefix
 
-from math import ceil
-import json
-import datetime
-import asyncio
-import os
+from ..utils.utils import modules_help, requirements_list, prefix
 
 try:
     import spotipy
@@ -107,6 +108,8 @@ async def auth(client: Client, message: Message):
             " подтвердите доступ, затем скопируйте адрес редиректа и выполните"
             " <code>.codeauth [адрес редедиректа]</code>"
         )
+    else:
+        await message.edit("⚠️Вы уже авторизованы")
 
     else:
         await message.edit("⚠️Вы уже авторизованы")
@@ -143,9 +146,9 @@ async def now(client: Client, message: Message):
         current_playback = sp.current_playback()
         try:
             device = (
-                current_playback["device"]["name"]
-                + " "
-                + current_playback["device"]["type"].lower()
+                    current_playback["device"]["name"]
+                    + " "
+                    + current_playback["device"]["type"].lower()
             )
         except:
             device = "летающей тарелке"
@@ -176,10 +179,10 @@ async def now(client: Client, message: Message):
                 playlist_name = "неизвестен"
             try:
                 playlist_owner = (
-                    playlist["owner"]["display_name"]
-                    + " <code>("
-                    + playlist["owner"]["id"]
-                    + ")</code>"
+                        playlist["owner"]["display_name"]
+                        + " <code>("
+                        + playlist["owner"]["id"]
+                        + ")</code>"
                 )
             except:
                 playlist_owner = "неизвестен"
