@@ -1,8 +1,9 @@
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from ..utils.utils import modules_help, prefix
-from random import randint
 from os import system, remove
+from random import randint
+
+from pyrogram import Client, filters
+
+from ..utils.utils import modules_help, prefix
 
 try:
     from wget import download
@@ -19,11 +20,7 @@ def download_sticker(url):
 async def random_stiker(client, message):
     await message.delete()
     random = randint(1, 63)
-    if random < 10:
-        index = f"00{random}"
-    else:
-        index = f"0{random}"
-
+    index = f"00{random}" if random < 10 else f"0{random}"
     sticker = (
         f"https://www.chpic.su/_data/stickers/f/FforRespect/FforRespect_{index}.webp"
     )

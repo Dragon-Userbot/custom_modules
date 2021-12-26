@@ -1,9 +1,9 @@
+from random import randint
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from ..utils.utils import modules_help, prefix
-from ..utils.utils import requirements_list
 
-from random import randint
+from ..utils.utils import modules_help, prefix
 
 
 @Client.on_message(filters.command("bugurut", prefix) & filters.me)
