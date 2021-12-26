@@ -111,6 +111,9 @@ async def auth(client: Client, message: Message):
     else:
         await message.edit("⚠️Вы уже авторизованы")
 
+    else:
+        await message.edit("⚠️Вы уже авторизованы")
+
 
 @Client.on_message(filters.command("codeauth", prefix) & filters.me)
 async def codeauth(client: Client, message: Message):
