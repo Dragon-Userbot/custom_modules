@@ -12,7 +12,7 @@ async def make(client, message, o):
     if reply.photo or reply.sticker:
         if reply.photo:
             downloads = await client.download_media(reply.photo.file_id)
-        elif reply.sticker:
+        else:
             downloads = await client.download_media(reply.sticker.file_id)
         path = f"{downloads}"
         img = Image.open(path)

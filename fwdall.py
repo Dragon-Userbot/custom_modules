@@ -26,7 +26,7 @@ async def forward(client: Client, message: Message):
                         await asyncio.sleep(e.x)
                         await client.forward_messages(target.id, message.chat.id, msgs)
                     msgs = []
-            if len(msgs) > 0:
+            if msgs:
                 try:
                     await client.forward_messages(target.id, message.chat.id, msgs)
                 except FloodWait as e:
