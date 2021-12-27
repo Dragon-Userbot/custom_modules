@@ -1,12 +1,12 @@
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from pyrogram.raw import types, functions
-from ..utils.utils import modules_help, prefix
+import io
+from textwrap import wrap
 
 import requests
 from PIL import Image, ImageFont, ImageDraw
-import io
-from textwrap import wrap
+from pyrogram import Client, filters
+from pyrogram.types import Message
+
+from ..utils.utils import modules_help, prefix
 
 
 @Client.on_message(filters.command(["j", "jac"], prefix) & filters.me)

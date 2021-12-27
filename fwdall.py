@@ -1,9 +1,11 @@
+import asyncio
+
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message
-from ..utils import utils
+
 from ..utils.utils import modules_help, prefix
-import asyncio
+
 
 @Client.on_message(filters.command(["fwdall"], prefix) & filters.me)
 async def forward(client: Client, message: Message):
@@ -26,7 +28,7 @@ async def forward(client: Client, message: Message):
                         await asyncio.sleep(e.x)
                         await client.forward_messages(target.id, message.chat.id, msgs)
                     msgs = []
-            if len(msgs) > 0:
+            if msgs:
                 try:
                     await client.forward_messages(target.id, message.chat.id, msgs)
                 except FloodWait as e:

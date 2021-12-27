@@ -1,12 +1,13 @@
+import asyncio
+import datetime
+import json
+import os
+from math import ceil
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from ..utils.utils import modules_help, requirements_list, prefix
 
-from math import ceil
-import json
-import datetime
-import asyncio
-import os
+from ..utils.utils import modules_help, requirements_list, prefix
 
 try:
     import spotipy
@@ -53,9 +54,8 @@ def get_db():
         with open("spotify.json") as dbf:
             db = json.load(dbf)
     except:
-        f = open("spotify.json", "w")
-        f.write("{}")
-        f.close()
+        with open("spotify.json", "w") as f:
+            f.write("{}")
         return {}
     return db
 
@@ -68,7 +68,13 @@ def write_db(ttw):
 async def check_token():
     db = get_db()
     if db.get("acs_tkn") != None:
-        if db.get("LastChange") != None:
+        if db.get("LastChange") is None:
+            crnt = datetime.datetime.now()
+            db["acs_tkn"] = sp_auth.refresh_access_token(
+                db.get("acs_tkn")["refresh_token"]
+            )
+            db["LastChange"] = crnt.isoformat()
+        else:
             ttc = datetime.datetime.strptime(
                 db.get("LastChange"), "%Y-%m-%dT%H:%M:%S.%f"
             ) + datetime.timedelta(minutes=45)
@@ -79,12 +85,6 @@ async def check_token():
                 )
                 db["LastChange"] = crnt.isoformat()
                 write_db(db)
-        else:
-            crnt = datetime.datetime.now()
-            db["acs_tkn"] = sp_auth.refresh_access_token(
-                db.get("acs_tkn")["refresh_token"]
-            )
-            db["LastChange"] = crnt.isoformat()
     write_db(db)
 
 
@@ -101,15 +101,15 @@ loop.create_task(check_token_loop())
 @Client.on_message(filters.command("auth", prefix) & filters.me)
 async def auth(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") != None:
-        await message.edit("⚠️Вы уже авторизованы")
-    else:
+    if db.get("acs_tkn") is None:
         sp_auth.get_authorize_url()
         await message.edit(
             f'<a href="{sp_auth.get_authorize_url()}">Перейдите по этой ссылке</a>,'
             " подтвердите доступ, затем скопируйте адрес редиректа и выполните"
             " <code>.codeauth [адрес редедиректа]</code>"
         )
+    else:
+        await message.edit("⚠️Вы уже авторизованы")
 
 
 @Client.on_message(filters.command("codeauth", prefix) & filters.me)
@@ -136,16 +136,16 @@ async def unauth(client: Client, message: Message):
 @Client.on_message(filters.command("now", prefix) & filters.me)
 async def now(client: Client, message: Message):
     db = get_db()
-    if db.get("spotify_module", "acs_tkn") == None:
+    if db.get("spotify_module", "acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
         current_playback = sp.current_playback()
         try:
             device = (
-                current_playback["device"]["name"]
-                + " "
-                + current_playback["device"]["type"].lower()
+                    current_playback["device"]["name"]
+                    + " "
+                    + current_playback["device"]["type"].lower()
             )
         except:
             device = "летающей тарелке"
@@ -159,12 +159,10 @@ async def now(client: Client, message: Message):
                 / current_playback["item"]["duration_ms"]
                 * 100
             )
-            bar = ""
             bar_filled = ceil(percentage / 10)
             bar_empty = 10 - bar_filled
-            for i in range(0, bar_filled):
-                bar += "█"
-            for i in range(0, bar_empty):
+            bar = "".join("█" for _ in range(bar_filled))
+            for _ in range(bar_empty):
                 bar += "░"
             bar += str(" " + str(percentage) + "%")
         except:
@@ -178,10 +176,10 @@ async def now(client: Client, message: Message):
                 playlist_name = "неизвестен"
             try:
                 playlist_owner = (
-                    playlist["owner"]["display_name"]
-                    + " <code>("
-                    + playlist["owner"]["id"]
-                    + ")</code>"
+                        playlist["owner"]["display_name"]
+                        + " <code>("
+                        + playlist["owner"]["id"]
+                        + ")</code>"
                 )
             except:
                 playlist_owner = "неизвестен"
@@ -207,13 +205,7 @@ async def now(client: Client, message: Message):
             artists = ["nothing", "here"]
 
         await message.edit(
-            f"Сейчас играет: <code>{track} - {' '.join(artists)}</code> на"
-            f" <code>{device}</code>\nСсылки: <a href='{track_url}'>Spotify</a> | <a"
-            f" href='https://song.link/s/{track_id}'>Другие платформы</a>\nГромкость:"
-            f" <code>{str(volume)}</code>\nПлайлист:"
-            f" <code>{playlist_name}</code>\nИдентификатор плейлиста:"
-            f" <code>{playlist_id}</code>\nВладелец плейлиста:"
-            f" {playlist_owner}\n\nПрогресс: <code>{bar}</code>",
+            f"""Сейчас играет: <code>{track} - {" ".join(artists)}</code> на <code>{device}</code>\nСсылки: <a href='{track_url}'>Spotify</a> | <a href='https://song.link/s/{track_id}'>Другие платформы</a>\nГромкость: <code>{volume}</code>\nПлайлист: <code>{playlist_name}</code>\nИдентификатор плейлиста: <code>{playlist_id}</code>\nВладелец плейлиста: {playlist_owner}\n\nПрогресс: <code>{bar}</code>""",
             disable_web_page_preview=True,
         )
 
@@ -221,7 +213,7 @@ async def now(client: Client, message: Message):
 @Client.on_message(filters.command("repeat", prefix) & filters.me)
 async def repeat(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") == None:
+    if db.get("acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         try:
@@ -237,7 +229,7 @@ async def repeat(client: Client, message: Message):
 @Client.on_message(filters.command("derepeat", prefix) & filters.me)
 async def derepeat(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") == None:
+    if db.get("acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         try:
@@ -251,7 +243,7 @@ async def derepeat(client: Client, message: Message):
 @Client.on_message(filters.command("next", prefix) & filters.me)
 async def next(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") == None:
+    if db.get("acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         try:
@@ -265,7 +257,7 @@ async def next(client: Client, message: Message):
 @Client.on_message(filters.command("pausetr", prefix) & filters.me)
 async def pausetr(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") == None:
+    if db.get("acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         try:
@@ -279,7 +271,7 @@ async def pausetr(client: Client, message: Message):
 @Client.on_message(filters.command("unpausetr", prefix) & filters.me)
 async def unpausetr(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") == None:
+    if db.get("acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         try:
@@ -293,7 +285,7 @@ async def unpausetr(client: Client, message: Message):
 @Client.on_message(filters.command("back", prefix) & filters.me)
 async def back(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") == None:
+    if db.get("acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         try:
@@ -307,7 +299,7 @@ async def back(client: Client, message: Message):
 @Client.on_message(filters.command("restr", prefix) & filters.me)
 async def restr(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") == None:
+    if db.get("acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         try:
@@ -321,7 +313,7 @@ async def restr(client: Client, message: Message):
 @Client.on_message(filters.command("liketr", prefix) & filters.me)
 async def liketr(client: Client, message: Message):
     db = get_db()
-    if db.get("acs_tkn") == None:
+    if db.get("acs_tkn") is None:
         await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
     else:
         try:

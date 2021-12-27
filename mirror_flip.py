@@ -1,10 +1,11 @@
 # original module https://raw.githubusercontent.com/KeyZenD/modules/master/MirrorFlipV2.py | t.me/the_kzd
+import os
+
+from PIL import Image, ImageOps
 from pyrogram import Client, filters
 from pyrogram.types import Message
+
 from ..utils.utils import modules_help, prefix
-from PIL import Image, ImageOps
-import os
-import html
 
 
 async def make(client, message, o):
@@ -12,7 +13,7 @@ async def make(client, message, o):
     if reply.photo or reply.sticker:
         if reply.photo:
             downloads = await client.download_media(reply.photo.file_id)
-        elif reply.sticker:
+        else:
             downloads = await client.download_media(reply.sticker.file_id)
         path = f"{downloads}"
         img = Image.open(path)
