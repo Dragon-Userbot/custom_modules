@@ -3,7 +3,7 @@ import asyncio
 from pyrogram import Client, filters
 from pyrogram.raw import functions
 from pyrogram.types import Message
-from .utils.utils import modules_help, prefix
+from ..utils.utils import modules_help, prefix
 
 
 @Client.on_message(filters.command("tt", prefix) & filters.me)
