@@ -14,13 +14,13 @@ async def tiktok(client: Client, message: Message):
         link = message.command[1]
     else:
         return await message.edit(
-            "<i>Вы не указали ссылу, ознакомьтесь с докуметацией этого модуля</i>"
+            "<i>Вы не указали ссылку, ознакомьтесь с документацией этого модуля</i>"
         )
     await message.edit("<i>Загрузка...</i>")
     await client.send_message("@ttlessbot", "/start")
     await asyncio.sleep(0.5)
     await client.send_message("@ttlessbot", message.reply_to_message.text)
-    await asyncio.sleep(4)
+    await asyncio.sleep(7)
     messages = await client.get_history("@ttlessbot")
     video = messages[1].video.file_id
     await message.delete()
