@@ -205,7 +205,7 @@ async def now(client: Client, message: Message):
             artists = ["nothing", "here"]
 
         await message.edit(
-            f"""Сейчас играет: <code>{track} - {" ".join(artists)}</code> на <code>{device}</code>\nСсылки: <a href='{track_url}'>Spotify</a> | <a href='https://song.link/s/{track_id}'>Другие платформы</a>\nГромкость: <code>{volume}</code>\nПлайлист: <code>{playlist_name}</code>\nИдентификатор плейлиста: <code>{playlist_id}</code>\nВладелец плейлиста: {playlist_owner}\n\nПрогресс: <code>{bar}</code>""",
+            f"""Сейчас играет: <code>{track} - {", ".join(artists)}</code> на <code>{device}</code>\nСсылки: <a href='{track_url}'>Spotify</a> | <a href='https://song.link/s/{track_id}'>Другие платформы</a>\nГромкость: <code>{volume}</code>\nПлейлист: <code>{playlist_name}</code>\nИдентификатор плейлиста: <code>{playlist_id}</code>\nВладелец плейлиста: {playlist_owner}\n\nПрогресс: <code>{bar}</code>""",
             disable_web_page_preview=True,
         )
 
