@@ -5,7 +5,6 @@ from pyrogram.raw import functions
 from pyrogram.types import Message
 from ..utils.utils import modules_help, prefix
 
-
 @Client.on_message(filters.command("tt", prefix) & filters.me)
 async def tiktok(client: Client, message: Message):
     if message.reply_to_message:
@@ -17,15 +16,14 @@ async def tiktok(client: Client, message: Message):
             "<i>Вы не указали ссылку, ознакомьтесь с документацией этого модуля</i>"
         )
     await message.edit("<i>Загрузка...</i>")
-    await client.send_message("@ttlessbot", "/start")
-    await asyncio.sleep(0.5)
-    await client.send_message("@ttlessbot", link)
-    await asyncio.sleep(7)
-    messages = await client.get_history("@ttlessbot")
-    video = messages[1].video.file_id
+    await client.send_message("@downloader_tiktok_bot", link)
+    await asyncio.sleep(3)
+    messages = await client.get_history("@downloader_tiktok_bot")
+    video = messages[0].video.file_id
     await message.delete()
     await client.send_video(message.chat.id, video)
-
+    await client.send(functions.messages.DeleteHistory(peer=await client.resolve_peer("@downloader_tiktok_bot"), max_id=0, revoke=True))
+    
 
 modules_help.append(
     {
