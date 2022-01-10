@@ -17,7 +17,7 @@ async def tiktok(client: Client, message: Message):
                 "<i>Вы не указали ссылку, ознакомьтесь с документацией этого модуля</i>"
             )
         await message.edit("<i>Загрузка...</i>")
-        await client.send_message("@downloader_tiktok_bot", link)
+        await client.send_message("@ArynTTBot", link)
         await asyncio.sleep(3)
         messages = await client.get_history("@downloader_tiktok_bot")
         video = messages[0].video.file_id
