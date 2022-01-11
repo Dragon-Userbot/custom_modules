@@ -2,6 +2,14 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from ..utils.utils import modules_help, prefix
 
+import requests
+import urllib
+import urllib.request
+from tiktok_downloader import snaptik
+import os
+import time
+import random
+
 async def download_video(video_url, name):
   requestsVideo = requests.get(video_url, allow_redirects=True)
   open(f"./downloads/video{name}.mp4", "wb").write(requestsVideo.content)
