@@ -85,12 +85,9 @@ async def preview(client, message):
 modules_help.append(
     {
         "yt_preview": [
-            {"preview [link]*": "Download the preview from the link"},
-            {"preview [link]* 1": "Will output - Preview, ling "},
-            {"preview [link]* 2": "Will output - Download link "},
-            {"preview [link]* 3": "Will output - link "},
-            {"preview [link]* 4": "Will output - Preview "},
-            {"preview [link]* 5 Your Text": "Will output - Preview Your Text "},
+            {
+                "preview [link]* 1/2/3/4/5": "Download the preview from the link\n1 - Preview, link\n2 - Download link\n3 - link\n4 - Preview, ling\n5 - Preview Your Text"
+            },
         ]
     }
 )
