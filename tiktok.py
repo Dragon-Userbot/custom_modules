@@ -15,18 +15,21 @@ async def download_video(video_url, name):
   open(f"./downloads/video{name}.mp4", "wb").write(requestsVideo.content)
 
 async def sendVideo(message, client, video_url):
+  await message.delete()
   chars = 'abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
   create_hash = ""
   for i in range(10):
     create_hash += random.choice(chars)
+  startDownload = time.time()
   snaptik(video_url).get_media()[0].download(f"./downloads/{create_hash}.mp4")
   path = f"./downloads/{create_hash}.mp4"
+  endDownload = time.time() - startDownload
   with open(f"./downloads/{create_hash}.mp4", "rb") as file:
     await client.send_video(
       chat_id = message.chat.id,
-      video=file
+      video=file,
+      caption=f"{round(endDownload, 4)} s"
     )
-    await message.delete()
   os.remove(path)
 
 if not os.path.exists("downloads"):
