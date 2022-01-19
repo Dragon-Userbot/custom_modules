@@ -20,7 +20,7 @@ async def send_comment(client: Client, message: Message):
 
 
 @Client.on_message(filters.command(["auto_comment", "ac"], prefix) & filters.me)
-async def ping(client: Client, message: Message):
+async def auto_comment(client: Client, message: Message):
     command = message.command[1]
     if message.command[1] == "enable":
         if len(message.command) == 2:
