@@ -3,7 +3,7 @@ from random import randint
 
 from pyrogram import Client, filters
 
-from ..utils.utils import modules_help, prefix
+from utils.misc import modules_help, prefix
 
 try:
     from wget import download
