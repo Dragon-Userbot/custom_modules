@@ -4,7 +4,7 @@ import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from ..utils.utils import modules_help, prefix
+from utils.misc import modules_help, prefix
 
 MAX_URL = "https://img.youtube.com/vi/{id}/maxresdefault.jpg"
 HQ_URL = "https://img.youtube.com/vi/{id}/hqdefault.jpg"
