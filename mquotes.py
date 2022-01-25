@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from utils.misc import modules_help, prefix
+from ..utils.utils import modules_help, prefix
 
 
 @Client.on_message(filters.command(["mquote", "mq"], prefix) & filters.me)

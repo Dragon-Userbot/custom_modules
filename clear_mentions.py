@@ -3,7 +3,7 @@ from pyrogram.errors import FloodWait
 from pyrogram.raw import functions, types
 from pyrogram.types import Message
 
-from utils.misc import modules_help, prefix
+from ..utils.utils import modules_help, prefix
 
 
 @Client.on_message(filters.command(["clear_@"], prefix) & filters.me)

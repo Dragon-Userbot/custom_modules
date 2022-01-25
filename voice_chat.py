@@ -5,7 +5,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pytgcalls import GroupCallFactory
 
-from utils.misc import modules_help, prefix
+from ..utils.utils import modules_help, prefix
 
 group_call = None
 
