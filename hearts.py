@@ -82,8 +82,11 @@ async def hearts(client: Client, message: Message):
     await phase3(message)
     await phase4(message)
     await asyncio.sleep(SLEEP * 3)
-    await message.edit("💕 by @arte_m_etra")
-
+    
+    final_caption = " ".join(message.command[:1])
+    if not final_caption:
+        final_caption = "💕 by @arte_m_etra"
+    await message.edit(final_caption)
 
 modules_help.append(
     {"hearts": [{"hearts": "Heart animation !!MAY CAUSE FLOODWAITS/BE LAGGY!"}]}
