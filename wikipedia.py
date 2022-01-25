@@ -2,8 +2,8 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 import wikipedia
-from utils.misc import modules_help, prefix
-from utils.misc import requirements_list
+from ..utils.utils import modules_help, prefix
+from ..utils.utils import requirements_list
 
 
 @Client.on_message(filters.command("wiki", prefix) & filters.me)

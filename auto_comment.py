@@ -2,13 +2,13 @@ from contextlib import suppress
 from pyrogram import Client, filters, ContinuePropagation
 from pyrogram.types import Message
 from pyrogram.errors import MsgIdInvalid
-from utils.misc import modules_help, prefix
-from utils.db import db
+from ..utils.utils import modules_help, prefix
+from ..utils.db import db
 
 
 @Client.on_message(filters.channel & ~filters.edited)
 async def send_comment(client: Client, message: Message):
-    auto_comment = db.get("custom.auto_comment", "comment", {"disable": None})
+    auto_comment = db.get("custom.auto_comment", "comment")
     with suppress(MsgIdInvalid):
         if list(auto_comment.keys())[0] == "enable":
             print(message.chat.id)

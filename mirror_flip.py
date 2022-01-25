@@ -5,7 +5,7 @@ from PIL import Image, ImageOps
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from utils.misc import modules_help, prefix
+from ..utils.utils import modules_help, prefix
 
 
 async def make(client, message, o):
