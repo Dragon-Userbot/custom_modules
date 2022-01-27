@@ -68,7 +68,6 @@ async def phase3(message: Message):
 
 async def phase4(message: Message):
     """Matrix shrinking"""
-    print("here")
     for i in range(7, 0, -1):
         heart_matrix = "\n".join([R * i] * i)
         await _wrap_edit(message, heart_matrix)
