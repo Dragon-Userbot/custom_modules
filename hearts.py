@@ -82,7 +82,7 @@ async def hearts(client: Client, message: Message):
     await phase4(message)
     await asyncio.sleep(SLEEP * 3)
 
-    final_caption = " ".join(message.command[:1])
+    final_caption = " ".join(message.command[1:])
     if not final_caption:
         final_caption = "💕 by @arte_m_etra"
     await message.edit(final_caption)
