@@ -17,12 +17,17 @@ def prettify(val: int) -> str:
     return "".join(digits[i] for i in str(val))
 
 
-@Client.on_message(filters.command("1000", prefix) & filters.me)
-async def ghoul_counter(c: Client, m: Message):
+@Client.on_message(filters.command("ghoul", prefix) & filters.me)
+async def ghoul_counter(_: Client, m: Message):
     await m.delete()
     counter = 1000
-
-    message = await c.send_message(m.chat.id, prettify(counter))
+    
+    if len(m.command) > 1:
+        _ = m.command[1]
+        if _.isdigit():
+            counter = int(_)
+    
+    message = await m.reply_text(prettify(counter), quote=False)
 
     await sleep(1)
 
@@ -34,4 +39,4 @@ async def ghoul_counter(c: Client, m: Message):
     await message.edit_text("<b>🤡 ГУЛЬ 🤡</b>")
 
 
-modules_help.append({"1000-7": [{"1000": "counting from 1000 to 0 as a ghoul"}]})
+modules_help.append({"1000-7": [{"ghoul {count_from}": "counting from 1000 (or given <code>count_from</code>) to 0 as a ghoul"}]})
