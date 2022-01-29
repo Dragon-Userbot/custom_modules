@@ -7,7 +7,7 @@ from math import ceil
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from ..utils.utils import modules_help, requirements_list, prefix
+from utils.misc import modules_help, requirements_list, prefix
 
 try:
     import spotipy

@@ -2,8 +2,8 @@ from contextlib import suppress
 from pyrogram import Client, filters, ContinuePropagation
 from pyrogram.types import Message
 from pyrogram.errors import MsgIdInvalid
-from ..utils.utils import modules_help, prefix
-from ..utils.db import db
+from utils.misc import modules_help, prefix
+from utils.db import db
 
 
 @Client.on_message(filters.channel & ~filters.edited)
