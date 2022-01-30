@@ -190,7 +190,6 @@ async def now(client: Client, message: Message):
         except:
             from_playlist = False
     except Exception as e:
-        print(e.with_traceback())
         success = False
 
     if from_playlist and success:
