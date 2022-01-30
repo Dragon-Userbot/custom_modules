@@ -112,7 +112,7 @@ async def auth(client: Client, message: Message):
 
 @Client.on_message(filters.command("spcodeauth", prefix) & filters.me)
 async def codeauth(client: Client, message: Message):
-    if db.get("custom.spotify", "token") is None:
+    if db.get("custom.spotify", "token") is not None:
         await message.edit("⚠️Вы уже авторизованы")
     else:
         try:
@@ -229,6 +229,7 @@ async def now(client: Client, message: Message):
 
 
 @Client.on_message(filters.command("repeat", prefix) & filters.me)
+@auth_required
 async def repeat(client: Client, message: Message):
     try:
         sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
