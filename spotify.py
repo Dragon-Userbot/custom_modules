@@ -1,16 +1,17 @@
 import asyncio
 import datetime
-import json
-import os
+import textwrap
 from math import ceil
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from utils.misc import modules_help, prefix
+from utils.db import db
 from utils.scripts import import_library
 
 spotipy = import_library("spotipy")
+import spotipy
 
 modules_help.append(
     {
@@ -45,43 +46,45 @@ sp_auth = spotipy.oauth2.SpotifyOAuth(
 )
 
 
-def get_db():
-    try:
-        with open("spotify.json") as dbf:
-            db = json.load(dbf)
-    except:
-        with open("spotify.json", "w") as f:
-            f.write("{}")
-        return {}
-    return db
+def auth_required(function):
+    async def wrapped(client: Client, message: Message):
+        if db.get("spotify", "token") is None:
+            await message.edit(
+                f"<b>⚠️Для использования модуля необходима авторизация.\n"
+                f"ℹ️Выполните <code>{prefix}spauth</code> для авторизации.</b>"
+            )
+        else:
+            return await function(client, message)
 
-
-def write_db(ttw):
-    with open("spotify.json", "w") as dbf:
-        json.dump(ttw, dbf)
+    return wrapped
 
 
 async def check_token():
-    db = get_db()
-    if db.get("acs_tkn") != None:
-        if db.get("LastChange") is None:
-            crnt = datetime.datetime.now()
-            db["acs_tkn"] = sp_auth.refresh_access_token(
-                db.get("acs_tkn")["refresh_token"]
+    if db.get("spotify", "token") is not None:
+        if db.get("spotify", "last_token_update") is None:
+            db.set(
+                "spotify",
+                "token",
+                sp_auth.refresh_access_token(
+                    db.get("spotify", "token")["refresh_token"]
+                ),
             )
-            db["LastChange"] = crnt.isoformat()
+            db.set("spotify", "last_token_update", datetime.datetime.now().isoformat())
         else:
             ttc = datetime.datetime.strptime(
-                db.get("LastChange"), "%Y-%m-%dT%H:%M:%S.%f"
+                db.get("spotify", "last_token_update"), "%Y-%m-%dT%H:%M:%S.%f"
             ) + datetime.timedelta(minutes=45)
-            crnt = datetime.datetime.now()
-            if ttc < crnt:
-                db["acs_tkn"] = sp_auth.refresh_access_token(
-                    db.get("acs_tkn")["refresh_token"]
+            if ttc < datetime.datetime.now():
+                db.set(
+                    "spotify",
+                    "token",
+                    sp_auth.refresh_access_token(
+                        db.get("spotify", "token")["refresh_token"]
+                    ),
                 )
-                db["LastChange"] = crnt.isoformat()
-                write_db(db)
-    write_db(db)
+                db.set(
+                    "spotify", "last_token_update", datetime.datetime.now().isoformat()
+                )
 
 
 async def check_token_loop():
@@ -94,228 +97,246 @@ loop = asyncio.get_event_loop()
 loop.create_task(check_token_loop())
 
 
-@Client.on_message(filters.command("auth", prefix) & filters.me)
+@Client.on_message(filters.command("spauth", prefix) & filters.me)
 async def auth(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
+    if not db.get("spotify", "token") is None:
+        await message.edit("⚠️Вы уже авторизованы")
+    else:
         sp_auth.get_authorize_url()
         await message.edit(
-            f'<a href="{sp_auth.get_authorize_url()}">Перейдите по этой ссылке</a>,'
+            f'<a href="{sp_auth.get_authorize_url()}">ℹ️Перейдите по этой ссылке</a>,'
             " подтвердите доступ, затем скопируйте адрес редиректа и выполните"
-            " <code>.codeauth [адрес редедиректа]</code>"
+            f" <code>{prefix}spcodeauth [адрес редедиректа]</code>"
         )
-    else:
-        await message.edit("⚠️Вы уже авторизованы")
 
 
-@Client.on_message(filters.command("codeauth", prefix) & filters.me)
+@Client.on_message(filters.command("spcodeauth", prefix) & filters.me)
 async def codeauth(client: Client, message: Message):
-    try:
-        db = get_db()
-        url = message.text.split(" ")[1]
-        code = sp_auth.parse_auth_response_url(url)
-        db["acs_tkn"] = sp_auth.get_access_token(code, True, False)
-        await message.edit("Авторизация успешна.")
-        write_db(db)
-    except:
-        await message.edit(
-            "⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно."
-        )
+    if db.get("spotify", "token") is None:
+        await message.edit("⚠️Вы уже авторизованы")
+    else:
+        try:
+            url = message.text.split(" ")[1]
+            code = sp_auth.parse_auth_response_url(url)
+            db.set("spotify", "token", sp_auth.get_access_token(code, True, False))
+            await message.edit(
+                "<b>✅Авторизация успешна. Теперь вы можете использовать модуль\n"
+                f"Список команд: <code>{prefix}help spotify</code></b>"
+            )
+        except Exception as e:
+            await message.edit(
+                "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+                f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+            )
 
 
 @Client.on_message(filters.command("unauth", prefix) & filters.me)
+@auth_required
 async def unauth(client: Client, message: Message):
-    write_db({})
-    await message.edit("Данные авторизации удалены успешно.")
+    db.remove("spotify", "token")
+    db.remove("spotify", "last_token_update")
+    await message.edit("<b>✅Данные авторизации удалены успешно.</b>")
 
 
 @Client.on_message(filters.command("now", prefix) & filters.me)
+@auth_required
 async def now(client: Client, message: Message):
-    db = get_db()
-    if db.get("spotify_module", "acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-        current_playback = sp.current_playback()
+    sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+    current_playback = sp.current_playback()
+    success = True
+    from_playlist = False
+    try:
+        track = current_playback["item"]["name"]
+        artists = ['<a href="' + artist["external_urls"]["spotify"] + '">' + artist["name"] + '</a>' for artist in current_playback["item"]["artists"]]
+        track_id = current_playback["item"]["id"]
+        track_url = current_playback["item"]["external_urls"]["spotify"]
+        device = (
+            current_playback["device"]["name"]
+            + " "
+            + current_playback["device"]["type"].lower()
+        )
+        volume = str(current_playback["device"]["volume_percent"]) + "%"
+        percentage = ceil(
+            current_playback["progress_ms"]
+            / current_playback["item"]["duration_ms"]
+            * 100
+        )
+        bar_filled = ceil(percentage / 10)
+        bar_empty = 10 - bar_filled
+        bar = "".join("█" for _ in range(bar_filled))
+        for _ in range(bar_empty):
+            bar += "░"
+        bar += (
+            f" {str(int((current_playback['progress_ms'] / (1000 * 60)) % 60)).zfill(2)}:{str(int((current_playback['progress_ms'] / 1000) % 60)).zfill(2)} "
+            f"/ {str(int((current_playback['item']['duration_ms'] / (1000 * 60)) % 60)).zfill(2)}:{str(int((current_playback['item']['duration_ms'] / 1000) % 60)).zfill(2)}"
+        )
+        bar += str(" (" + str(percentage) + "%)")
         try:
-            device = (
-                    current_playback["device"]["name"]
-                    + " "
-                    + current_playback["device"]["type"].lower()
-            )
-        except:
-            device = "летающей тарелке"
-        try:
-            volume = str(current_playback["device"]["volume_percent"]) + "%"
-        except:
-            volume = "-1%"
-        try:
-            percentage = ceil(
-                current_playback["progress_ms"]
-                / current_playback["item"]["duration_ms"]
-                * 100
-            )
-            bar_filled = ceil(percentage / 10)
-            bar_empty = 10 - bar_filled
-            bar = "".join("█" for _ in range(bar_filled))
-            for _ in range(bar_empty):
-                bar += "░"
-            bar += str(" " + str(percentage) + "%")
-        except:
-            bar = "░░░░░░░░░░ 0%"
-        try:
+            from_playlist = True
             playlist_id = current_playback["context"]["uri"].split(":")[-1]
             playlist = sp.playlist(playlist_id)
-            try:
-                playlist_name = playlist["name"]
-            except:
-                playlist_name = "неизвестен"
-            try:
-                playlist_owner = (
-                        playlist["owner"]["display_name"]
-                        + " <code>("
-                        + playlist["owner"]["id"]
-                        + ")</code>"
-                )
-            except:
-                playlist_owner = "неизвестен"
+            playlist_link = playlist["external_urls"]["spotify"]
+            playlist_name = playlist["name"]
+            playlist_owner = (
+                '<a href = "'
+                + playlist["owner"]["external_urls"]["spotify"]
+                + '">'
+                + playlist["owner"]["display_name"]
+                + '</a>'
+                + " <code>("
+                + playlist["owner"]["id"]
+                + ")</code>"
+            )
         except:
-            playlist_id = " - "
-            playlist_name = " - "
-            playlist_owner = " - "
-        try:
-            track = current_playback["item"]["name"]
-            track_id = current_playback["item"]["id"]
-        except:
-            track = "Не удалось получить трек"
-            track_id = "null"
-        try:
-            track_url = current_playback["item"]["external_urls"]["spotify"]
-        except:
-            track_url = "undefined"
-        artists = []
-        try:
-            for artist in current_playback["item"]["artists"]:
-                artists.append(artist["name"])
-        except:
-            artists = ["nothing", "here"]
+            from_playlist = False
+    except Exception as e:
+        print(e.with_traceback())
+        success = False
 
+    if from_playlist and success:
         await message.edit(
-            f"""Сейчас играет: <code>{track} - {", ".join(artists)}</code> на <code>{device}</code>\nСсылки: <a href='{track_url}'>Spotify</a> | <a href='https://song.link/s/{track_id}'>Другие платформы</a>\nГромкость: <code>{volume}</code>\nПлейлист: <code>{playlist_name}</code>\nИдентификатор плейлиста: <code>{playlist_id}</code>\nВладелец плейлиста: {playlist_owner}\n\nПрогресс: <code>{bar}</code>""",
+            textwrap.dedent(
+                f"""
+                <b>
+                🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
+                📱 Устройство: <code>{device}</code>
+                🔊 Громкость: {volume}
+                🎵 Плейлист: <a href="{playlist_link}">{playlist_name}</a> (<code>{playlist_id}</code>)
+                🫂 Владелец плейлиста: {playlist_owner}
+                
+                <code>{bar}</code></b>
+            """
+            ),
             disable_web_page_preview=True,
+        )
+    elif success:
+        await message.edit(
+            textwrap.dedent(
+                f"""
+                    <b>
+                    🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
+                    📱 Устройство: <code>{device}</code>
+                    🔊 Громкость: {volume}
+                    
+                    <code>{bar}</code></b>
+                    """
+            ),
+            disable_web_page_preview=True,
+        )
+    else:
+        await message.edit(
+            "<b>⚠️Не удалось получить трек\n"
+            f"Проверьте, что Spotify включен и проигрывает трек</b>"
         )
 
 
 @Client.on_message(filters.command("repeat", prefix) & filters.me)
 async def repeat(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        try:
-            sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-            sp.repeat("track")
-            await message.edit(
-                "🔂Поставлено на репит успешно. Счастливого прослушивания!"
-            )
-        except:
-            await message.edit("⚠️Что-то пошло не так. убедитесь, что трек играет.")
+    try:
+        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp.repeat("track")
+        await message.edit("🔂Поставлено на репит успешно. Счастливого прослушивания!")
+    except Exception as e:
+        await message.edit(
+            "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+            f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+        )
 
 
 @Client.on_message(filters.command("derepeat", prefix) & filters.me)
+@auth_required
 async def derepeat(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        try:
-            sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-            sp.repeat("context")
-            await message.edit("🎶Снято с репита успешно.")
-        except:
-            await message.edit("⚠️Что-то пошло не так. убедитесь, что трек играет.")
+    try:
+        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp.repeat("context")
+        await message.edit("🎶Снято с репита успешно.")
+    except Exception as e:
+        await message.edit(
+            "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+            f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+        )
 
 
 @Client.on_message(filters.command("next", prefix) & filters.me)
+@auth_required
 async def next(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        try:
-            sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-            sp.next_track()
-            await message.edit("⏭️Трек переключен успешно.")
-        except:
-            await message.edit("⚠️Что-то пошло не так. убедитесь, что трек играет.")
+    try:
+        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp.next_track()
+        await message.edit("⏭️Трек переключен успешно.")
+    except Exception as e:
+        await message.edit(
+            "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+            f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+        )
 
 
 @Client.on_message(filters.command("pausetr", prefix) & filters.me)
+@auth_required
 async def pausetr(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        try:
-            sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-            sp.pause_playback()
-            await message.edit("⏸️Поставлено на паузу успешно.")
-        except:
-            await message.edit("⚠️Что-то пошло не так. убедитесь, что трек играет.")
+    try:
+        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp.pause_playback()
+        await message.edit("⏸️Поставлено на паузу успешно.")
+    except Exception as e:
+        await message.edit(
+            "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+            f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+        )
 
 
 @Client.on_message(filters.command("unpausetr", prefix) & filters.me)
+@auth_required
 async def unpausetr(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        try:
-            sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-            sp.start_playback()
-            await message.edit("▶️Снято с паузы успешно")
-        except:
-            await message.edit("⚠️Что-то пошло не так. убедитесь, что трек играет.")
+    try:
+        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp.start_playback()
+        await message.edit("▶️Снято с паузы успешно")
+    except Exception as e:
+        await message.edit(
+            "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+            f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+        )
 
 
 @Client.on_message(filters.command("back", prefix) & filters.me)
+@auth_required
 async def back(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        try:
-            sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-            sp.previous_track()
-            await message.edit("◀️Вернул трек назад успешно.")
-        except:
-            await message.edit("⚠️Что-то пошло не так. убедитесь, что трек играет.")
+    try:
+        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp.previous_track()
+        await message.edit("◀️Вернул трек назад успешно.")
+    except Exception as e:
+        await message.edit(
+            "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+            f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+        )
 
 
 @Client.on_message(filters.command("restr", prefix) & filters.me)
+@auth_required
 async def restr(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        try:
-            sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-            sp.seek_track(0)
-            await message.edit("🔁Трек перезапущен.")
-        except:
-            await message.edit("⚠️Что-то пошло не так. убедитесь, что трек играет.")
+    try:
+        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp.seek_track(0)
+        await message.edit("🔁Трек перезапущен.")
+    except Exception as e:
+        await message.edit(
+            "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+            f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+        )
 
 
 @Client.on_message(filters.command("liketr", prefix) & filters.me)
+@auth_required
 async def liketr(client: Client, message: Message):
-    db = get_db()
-    if db.get("acs_tkn") is None:
-        await message.edit("⚠️Необходима авторизация. <code>.auth</code>")
-    else:
-        try:
-            sp = spotipy.Spotify(auth=db.get("acs_tkn")["access_token"])
-            cupl = sp.current_playback()
-            sp.current_user_saved_tracks_add([cupl["item"]["id"]])
-            await message.edit("💚Лайкнуто!")
-        except:
-            await message.edit("⚠️Что-то пошло не так. убедитесь, что трек играет.")
+    try:
+        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        cupl = sp.current_playback()
+        sp.current_user_saved_tracks_add([cupl["item"]["id"]])
+        await message.edit("💚Лайкнуто!")
+    except Exception as e:
+        await message.edit(
+            "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
+            f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
+        )
