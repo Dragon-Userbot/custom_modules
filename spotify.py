@@ -197,8 +197,7 @@ async def now(client: Client, message: Message):
         await message.edit(
             textwrap.dedent(
                 f"""
-                <b>
-                🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
+                <b>🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
                 📱 Устройство: <code>{device}</code>
                 🔊 Громкость: {volume}
                 🎵 Плейлист: <a href="{playlist_link}">{playlist_name}</a> (<code>{playlist_id}</code>)
@@ -213,13 +212,12 @@ async def now(client: Client, message: Message):
         await message.edit(
             textwrap.dedent(
                 f"""
-                    <b>
-                    🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
+                    <b>🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
                     📱 Устройство: <code>{device}</code>
                     🔊 Громкость: {volume}
                     
                     <code>{bar}</code></b>
-                    """
+                """
             ),
             disable_web_page_preview=True,
         )
