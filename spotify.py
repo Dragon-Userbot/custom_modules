@@ -16,8 +16,8 @@ import spotipy
 modules_help.append(
     {
         "spotify": [
-            {"auth": "First auth step"},
-            {"codeauth": "Second auth step"},
+            {"spauth": "First auth step"},
+            {"spcodeauth": "Second auth step"},
             {"now": "Display now playing track"},
             {"repeat": "Set track on-repeat"},
             {"derepeat": "Set track out from repeat"},
