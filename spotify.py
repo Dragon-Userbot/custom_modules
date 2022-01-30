@@ -4,11 +4,13 @@ import textwrap
 from math import ceil
 
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, Document
 
 from utils.misc import modules_help, prefix
 from utils.db import db
 from utils.scripts import import_library
+
+import json
 
 spotipy = import_library("spotipy")
 import spotipy
@@ -148,6 +150,7 @@ async def now(client: Client, message: Message):
     try:
         track = current_playback["item"]["name"]
         artists = ['<a href="' + artist["external_urls"]["spotify"] + '">' + artist["name"] + '</a>' for artist in current_playback["item"]["artists"]]
+        artists_names = [artist["name"] for artist in current_playback["item"]["artists"]]
         track_id = current_playback["item"]["id"]
         track_url = current_playback["item"]["external_urls"]["spotify"]
         device = (
@@ -193,8 +196,7 @@ async def now(client: Client, message: Message):
         success = False
 
     if from_playlist and success:
-        await message.edit(
-            textwrap.dedent(
+        res = textwrap.dedent(
                 f"""
                 <b>🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
                 📱 Устройство: <code>{device}</code>
@@ -204,26 +206,52 @@ async def now(client: Client, message: Message):
                 
                 <code>{bar}</code></b>
             """
-            ),
-            disable_web_page_preview=True,
         )
+        err = False
+        try:
+            for r in (await client.get_inline_bot_results("vkm4bot", f"{', '.join(artists_names)} - {track}"))["results"]:
+                if r["type"] == "audio":
+                    await client.send_cached_media(message.chat.id, Document._parse(client, r["document"], "audio")["file_id"], res)
+                    await message.delete()
+                    return
+        except Exception as e:
+            err = True
+            res += "\n<b>ℹ️Не удалось найти песню.\nОшибка:</b>" \
+                   f" <code>{e.__class__.__name__}</code>"
+            await message.edit(res, disable_web_page_preview=True)
+        if not err:
+            res += "\n<b>ℹ️Не удалось найти песню.</b>"
+            await message.edit(res, disable_web_page_preview=True)
     elif success:
-        await message.edit(
-            textwrap.dedent(
-                f"""
-                    <b>🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
-                    📱 Устройство: <code>{device}</code>
-                    🔊 Громкость: {volume}
+        res = textwrap.dedent(
+            f"""
+                <b>🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
+                📱 Устройство: <code>{device}</code>
+                🔊 Громкость: {volume}
                     
-                    <code>{bar}</code></b>
-                """
-            ),
-            disable_web_page_preview=True,
+                <code>{bar}</code></b>
+            """
         )
+        err = False
+        try:
+            for r in (await client.get_inline_bot_results("vkm4bot", f"{', '.join(artists_names)} - {track}"))["results"]:
+                if r["type"] == "audio":
+                    await client.send_cached_media(message.chat.id,
+                                                   Document._parse(client, r["document"], "audio")["file_id"], res)
+                    await message.delete()
+                    return
+        except Exception as e:
+            err = True
+            res += "\n<b>ℹ️Не удалось найти песню.\nОшибка:</b>" \
+                   f" <code>{e.__class__.__name__}</code>"
+            await message.edit(res, disable_web_page_preview=True)
+        if not err:
+            res += "\n<b>ℹ️Не удалось найти песню.</b>"
+            await message.edit(res, disable_web_page_preview=True)
     else:
         await message.edit(
-            "<b>⚠️Не удалось получить трек\n"
-            f"Проверьте, что Spotify включен и проигрывает трек</b>"
+            "<b>⚠️Не удалось получить трек\n" \
+            "Проверьте, что Spotify включен и проигрывает трек</b>"
         )
 
 
