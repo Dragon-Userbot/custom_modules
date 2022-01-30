@@ -48,7 +48,7 @@ sp_auth = spotipy.oauth2.SpotifyOAuth(
 
 def auth_required(function):
     async def wrapped(client: Client, message: Message):
-        if db.get("spotify", "token") is None:
+        if db.get("custom.spotify", "token") is None:
             await message.edit(
                 f"<b>⚠️Для использования модуля необходима авторизация.\n"
                 f"ℹ️Выполните <code>{prefix}spauth</code> для авторизации.</b>"
@@ -60,26 +60,26 @@ def auth_required(function):
 
 
 async def check_token():
-    if db.get("spotify", "token") is not None:
-        if db.get("spotify", "last_token_update") is None:
+    if db.get("custom.spotify", "token") is not None:
+        if db.get("custom.spotify", "last_token_update") is None:
             db.set(
                 "spotify",
                 "token",
                 sp_auth.refresh_access_token(
-                    db.get("spotify", "token")["refresh_token"]
+                    db.get("custom.spotify", "token")["refresh_token"]
                 ),
             )
-            db.set("spotify", "last_token_update", datetime.datetime.now().isoformat())
+            db.set("custom.spotify", "last_token_update", datetime.datetime.now().isoformat())
         else:
             ttc = datetime.datetime.strptime(
-                db.get("spotify", "last_token_update"), "%Y-%m-%dT%H:%M:%S.%f"
+                db.get("custom.spotify", "last_token_update"), "%Y-%m-%dT%H:%M:%S.%f"
             ) + datetime.timedelta(minutes=45)
             if ttc < datetime.datetime.now():
                 db.set(
                     "spotify",
                     "token",
                     sp_auth.refresh_access_token(
-                        db.get("spotify", "token")["refresh_token"]
+                        db.get("custom.spotify", "token")["refresh_token"]
                     ),
                 )
                 db.set(
@@ -99,7 +99,7 @@ loop.create_task(check_token_loop())
 
 @Client.on_message(filters.command("spauth", prefix) & filters.me)
 async def auth(client: Client, message: Message):
-    if not db.get("spotify", "token") is None:
+    if not db.get("custom.spotify", "token") is None:
         await message.edit("⚠️Вы уже авторизованы")
     else:
         sp_auth.get_authorize_url()
@@ -112,13 +112,13 @@ async def auth(client: Client, message: Message):
 
 @Client.on_message(filters.command("spcodeauth", prefix) & filters.me)
 async def codeauth(client: Client, message: Message):
-    if db.get("spotify", "token") is None:
+    if db.get("custom.spotify", "token") is None:
         await message.edit("⚠️Вы уже авторизованы")
     else:
         try:
             url = message.text.split(" ")[1]
             code = sp_auth.parse_auth_response_url(url)
-            db.set("spotify", "token", sp_auth.get_access_token(code, True, False))
+            db.set("custom.spotify", "token", sp_auth.get_access_token(code, True, False))
             await message.edit(
                 "<b>✅Авторизация успешна. Теперь вы можете использовать модуль\n"
                 f"Список команд: <code>{prefix}help spotify</code></b>"
@@ -141,7 +141,7 @@ async def unauth(client: Client, message: Message):
 @Client.on_message(filters.command("now", prefix) & filters.me)
 @auth_required
 async def now(client: Client, message: Message):
-    sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+    sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
     current_playback = sp.current_playback()
     success = True
     from_playlist = False
@@ -231,7 +231,7 @@ async def now(client: Client, message: Message):
 @Client.on_message(filters.command("repeat", prefix) & filters.me)
 async def repeat(client: Client, message: Message):
     try:
-        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
         sp.repeat("track")
         await message.edit("🔂Поставлено на репит успешно. Счастливого прослушивания!")
     except Exception as e:
@@ -245,7 +245,7 @@ async def repeat(client: Client, message: Message):
 @auth_required
 async def derepeat(client: Client, message: Message):
     try:
-        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
         sp.repeat("context")
         await message.edit("🎶Снято с репита успешно.")
     except Exception as e:
@@ -259,7 +259,7 @@ async def derepeat(client: Client, message: Message):
 @auth_required
 async def next(client: Client, message: Message):
     try:
-        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
         sp.next_track()
         await message.edit("⏭️Трек переключен успешно.")
     except Exception as e:
@@ -273,7 +273,7 @@ async def next(client: Client, message: Message):
 @auth_required
 async def pausetr(client: Client, message: Message):
     try:
-        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
         sp.pause_playback()
         await message.edit("⏸️Поставлено на паузу успешно.")
     except Exception as e:
@@ -287,7 +287,7 @@ async def pausetr(client: Client, message: Message):
 @auth_required
 async def unpausetr(client: Client, message: Message):
     try:
-        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
         sp.start_playback()
         await message.edit("▶️Снято с паузы успешно")
     except Exception as e:
@@ -301,7 +301,7 @@ async def unpausetr(client: Client, message: Message):
 @auth_required
 async def back(client: Client, message: Message):
     try:
-        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
         sp.previous_track()
         await message.edit("◀️Вернул трек назад успешно.")
     except Exception as e:
@@ -315,7 +315,7 @@ async def back(client: Client, message: Message):
 @auth_required
 async def restr(client: Client, message: Message):
     try:
-        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
         sp.seek_track(0)
         await message.edit("🔁Трек перезапущен.")
     except Exception as e:
@@ -329,7 +329,7 @@ async def restr(client: Client, message: Message):
 @auth_required
 async def liketr(client: Client, message: Message):
     try:
-        sp = spotipy.Spotify(auth=db.get("spotify", "token")["access_token"])
+        sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
         cupl = sp.current_playback()
         sp.current_user_saved_tracks_add([cupl["item"]["id"]])
         await message.edit("💚Лайкнуто!")
