@@ -7,13 +7,10 @@ from math import ceil
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from utils.misc import modules_help, requirements_list, prefix
+from utils.misc import modules_help, prefix
+from utils.scripts import import_library
 
-try:
-    import spotipy
-except:
-    os.system("pip3 install spotipy")
-    os.system("python3 main.py")
+spotipy = import_library("spotipy")
 
 modules_help.append(
     {
@@ -32,7 +29,6 @@ modules_help.append(
         ]
     }
 )
-requirements_list.append("spotipy")
 
 client_id = "e0708753ab60499c89ce263de9b4f57a"
 client_secret = "80c927166c664ee98a43a2c0e2981b4a"

@@ -1,12 +1,14 @@
 from io import BytesIO
 
 import requests
-from PIL import Image, ImageDraw, ImageFont, ImageOps
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from utils.misc import modules_help, prefix
+from utils.scripts import import_library
 
+PIL = import_library("PIL", "pillow")
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 @Client.on_message(filters.command(["mquote", "mq"], prefix) & filters.me)
 async def quotes(client: Client, message: Message):

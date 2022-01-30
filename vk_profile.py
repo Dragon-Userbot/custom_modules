@@ -1,9 +1,11 @@
-from bs4 import BeautifulSoup
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from requests import get
 
 from utils.misc import modules_help, prefix
+from utils.scripts import import_library
+bs4 = import_library("bs4", "beautifulsoup")
+from bs4 import BeautifulSoup
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"

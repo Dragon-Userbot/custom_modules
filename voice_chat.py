@@ -3,9 +3,12 @@ import os
 import ffmpeg
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pytgcalls import GroupCallFactory
 
 from utils.misc import modules_help, prefix
+from utils.scripts import import_library
+pytgcalls = import_library("pytgcalls")
+
+from pytgcalls import GroupCallFactory
 
 group_call = None
 

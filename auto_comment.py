@@ -8,7 +8,7 @@ from utils.db import db
 
 @Client.on_message(filters.channel & ~filters.edited)
 async def send_comment(client: Client, message: Message):
-    auto_comment = db.get("custom.auto_comment", "comment")
+    auto_comment = db.get("custom.auto_comment", "comment", {"disable": None})
     with suppress(MsgIdInvalid):
         if list(auto_comment.keys())[0] == "enable":
             print(message.chat.id)
