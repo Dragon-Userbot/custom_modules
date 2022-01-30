@@ -6,10 +6,12 @@ from pyrogram.types import Message
 
 from utils.misc import modules_help, prefix
 from utils.scripts import import_library
+
 requests = import_library("requests")
 PIL = import_library("PIL", "pillow")
 
 from PIL import Image, ImageDraw, ImageFont
+
 
 @Client.on_message(filters.command(["dem"], prefix) & filters.me)
 async def demotivator(client: Client, message: Message):

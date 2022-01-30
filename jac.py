@@ -11,6 +11,7 @@ requests = import_library("requests")
 PIL = import_library("PIL", "pillow")
 from PIL import Image, ImageFont, ImageDraw
 
+
 @Client.on_message(filters.command(["j", "jac"], prefix) & filters.me)
 async def jac(client: Client, message: Message):
     if message.command[1:]:

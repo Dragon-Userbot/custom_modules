@@ -5,6 +5,7 @@ from pyrogram.raw import functions
 from pyrogram.types import Message
 from utils.misc import modules_help, prefix
 
+
 @Client.on_message(filters.command("tt", prefix) & filters.me)
 async def tiktok(client: Client, message: Message):
     try:
@@ -23,7 +24,13 @@ async def tiktok(client: Client, message: Message):
         video = messages[0].video.file_id
         await message.delete()
         await client.send_video(message.chat.id, video)
-        await client.send(functions.messages.DeleteHistory(peer=await client.resolve_peer("@downloader_tiktok_bot"), max_id=0, revoke=True))
+        await client.send(
+            functions.messages.DeleteHistory(
+                peer=await client.resolve_peer("@downloader_tiktok_bot"),
+                max_id=0,
+                revoke=True,
+            )
+        )
     except AttributeError:
         return await msg.edit(
             "<i>Произошла ошибка при скачивании, попробуйте снова!</i>"

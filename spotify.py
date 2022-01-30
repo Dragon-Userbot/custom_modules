@@ -71,7 +71,11 @@ async def check_token():
                     db.get("custom.spotify", "token")["refresh_token"]
                 ),
             )
-            db.set("custom.spotify", "last_token_update", datetime.datetime.now().isoformat())
+            db.set(
+                "custom.spotify",
+                "last_token_update",
+                datetime.datetime.now().isoformat(),
+            )
         else:
             ttc = datetime.datetime.strptime(
                 db.get("custom.spotify", "last_token_update"), "%Y-%m-%dT%H:%M:%S.%f"
@@ -85,7 +89,9 @@ async def check_token():
                     ),
                 )
                 db.set(
-                    "custom.spotify", "last_token_update", datetime.datetime.now().isoformat()
+                    "custom.spotify",
+                    "last_token_update",
+                    datetime.datetime.now().isoformat(),
                 )
 
 
@@ -120,7 +126,9 @@ async def codeauth(client: Client, message: Message):
         try:
             url = message.text.split(" ")[1]
             code = sp_auth.parse_auth_response_url(url)
-            db.set("custom.spotify", "token", sp_auth.get_access_token(code, True, False))
+            db.set(
+                "custom.spotify", "token", sp_auth.get_access_token(code, True, False)
+            )
             await message.edit(
                 "<b>✅Авторизация успешна. Теперь вы можете использовать модуль\n"
                 f"Список команд: <code>{prefix}help spotify</code></b>"
@@ -149,8 +157,17 @@ async def now(client: Client, message: Message):
     from_playlist = False
     try:
         track = current_playback["item"]["name"]
-        artists = ['<a href="' + artist["external_urls"]["spotify"] + '">' + artist["name"] + '</a>' for artist in current_playback["item"]["artists"]]
-        artists_names = [artist["name"] for artist in current_playback["item"]["artists"]]
+        artists = [
+            '<a href="'
+            + artist["external_urls"]["spotify"]
+            + '">'
+            + artist["name"]
+            + "</a>"
+            for artist in current_playback["item"]["artists"]
+        ]
+        artists_names = [
+            artist["name"] for artist in current_playback["item"]["artists"]
+        ]
         track_id = current_playback["item"]["id"]
         track_url = current_playback["item"]["external_urls"]["spotify"]
         device = (
@@ -185,7 +202,7 @@ async def now(client: Client, message: Message):
                 + playlist["owner"]["external_urls"]["spotify"]
                 + '">'
                 + playlist["owner"]["display_name"]
-                + '</a>'
+                + "</a>"
                 + " <code>("
                 + playlist["owner"]["id"]
                 + ")</code>"
@@ -197,7 +214,7 @@ async def now(client: Client, message: Message):
 
     if from_playlist and success:
         res = textwrap.dedent(
-                f"""
+            f"""
                 <b>🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
                 📱 Устройство: <code>{device}</code>
                 🔊 Громкость: {volume}
@@ -209,15 +226,30 @@ async def now(client: Client, message: Message):
         )
         err = False
         try:
-            for r in (await client.get_inline_bot_results("vkm4bot", f"{', '.join(artists_names)} - {track}"))["results"]:
+            for r in (
+                await client.get_inline_bot_results(
+                    "vkm4bot", f"{', '.join(artists_names)} - {track}"
+                )
+            )["results"]:
                 if r["type"] == "audio":
-                    await client.send_cached_media(message.chat.id, Document._parse(client, r["document"], "audio")["file_id"], res)
+                    await client.send_cached_media(
+                        message.chat.id,
+                        Document._parse(client, r["document"], "audio")["file_id"],
+                        res,
+                        reply_to_message_id=(
+                            message.reply_to_message.message_id
+                            if message.reply_to_message is not None
+                            else None
+                        ),
+                    )
                     await message.delete()
                     return
         except Exception as e:
             err = True
-            res += "\n<b>ℹ️Не удалось найти песню.\nОшибка:</b>" \
-                   f" <code>{e.__class__.__name__}</code>"
+            res += (
+                "\n<b>ℹ️Не удалось найти песню.\nОшибка:</b>"
+                f" <code>{e.__class__.__name__}</code>"
+            )
             await message.edit(res, disable_web_page_preview=True)
         if not err:
             res += "\n<b>ℹ️Не удалось найти песню.</b>"
@@ -234,23 +266,37 @@ async def now(client: Client, message: Message):
         )
         err = False
         try:
-            for r in (await client.get_inline_bot_results("vkm4bot", f"{', '.join(artists_names)} - {track}"))["results"]:
+            for r in (
+                await client.get_inline_bot_results(
+                    "vkm4bot", f"{', '.join(artists_names)} - {track}"
+                )
+            )["results"]:
                 if r["type"] == "audio":
-                    await client.send_cached_media(message.chat.id,
-                                                   Document._parse(client, r["document"], "audio")["file_id"], res)
+                    await client.send_cached_media(
+                        message.chat.id,
+                        Document._parse(client, r["document"], "audio")["file_id"],
+                        res,
+                        reply_to_message_id=(
+                            message.reply_to_message.message_id
+                            if message.reply_to_message is not None
+                            else None
+                        ),
+                    )
                     await message.delete()
                     return
         except Exception as e:
             err = True
-            res += "\n<b>ℹ️Не удалось найти песню.\nОшибка:</b>" \
-                   f" <code>{e.__class__.__name__}</code>"
+            res += (
+                "\n<b>ℹ️Не удалось найти песню.\nОшибка:</b>"
+                f" <code>{e.__class__.__name__}</code>"
+            )
             await message.edit(res, disable_web_page_preview=True)
         if not err:
             res += "\n<b>ℹ️Не удалось найти песню.</b>"
             await message.edit(res, disable_web_page_preview=True)
     else:
         await message.edit(
-            "<b>⚠️Не удалось получить трек\n" \
+            "<b>⚠️Не удалось получить трек\n"
             "Проверьте, что Spotify включен и проигрывает трек</b>"
         )
 

@@ -10,6 +10,7 @@ from utils.scripts import import_library
 PIL = import_library("PIL", "pillow")
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
+
 @Client.on_message(filters.command(["mquote", "mq"], prefix) & filters.me)
 async def quotes(client: Client, message: Message):
     await message.edit("<code>Quoting ...</code>")
@@ -149,9 +150,9 @@ async def quotes(client: Client, message: Message):
                         str(reply_text_size).split()[0].split("(")[1].split(",")[0]
                     )
                 width = (
-                        max(list_size)
-                        + int(str(size_name).split()[0].split("(")[1].split(",")[0])
-                        + int(((size_rep_name + reply_tex_size) / 2))
+                    max(list_size)
+                    + int(str(size_name).split()[0].split("(")[1].split(",")[0])
+                    + int(((size_rep_name + reply_tex_size) / 2))
                 )
                 tab = 50 * (len(text.split("\n")) + 1)
                 im = Image.new("RGBA", (width + 40, tab + 150), (0, 0, 0, 0))
@@ -545,9 +546,9 @@ async def quotes(client: Client, message: Message):
                         str(reply_text_size).split()[0].split("(")[1].split(",")[0]
                     )
                 width = (
-                        max(list_size)
-                        + int(str(size_name).split()[0].split("(")[1].split(",")[0])
-                        + int(((size_rep_name + reply_tex_size) / 2))
+                    max(list_size)
+                    + int(str(size_name).split()[0].split("(")[1].split(",")[0])
+                    + int(((size_rep_name + reply_tex_size) / 2))
                 )
                 tab = 50 * (len(text.split("\n")) + 1)
                 im = Image.new("RGBA", (width + 40, tab + 150), (0, 0, 0, 0))

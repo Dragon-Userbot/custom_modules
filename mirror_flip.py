@@ -11,6 +11,7 @@ from utils.scripts import import_library
 PIL = import_library("PIL", "pillow")
 from PIL import Image, ImageOps
 
+
 async def make(client, message, o):
     reply = message.reply_to_message
     if reply.photo or reply.sticker:

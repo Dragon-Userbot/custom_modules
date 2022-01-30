@@ -6,6 +6,7 @@ from utils.scripts import import_library
 
 wikipedia = import_library("wikipedia")
 
+
 @Client.on_message(filters.command("wiki", prefix) & filters.me)
 async def wiki(client: Client, message: Message):
     lang = message.command[1]
@@ -37,4 +38,3 @@ async def wiki(client: Client, message: Message):
 modules_help.append(
     {"wikipedia": [{"wiki [lang] [request]*": "Search in Russian Wikipedia"}]}
 )
-
