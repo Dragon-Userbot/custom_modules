@@ -76,14 +76,14 @@ async def check_token():
             ) + datetime.timedelta(minutes=45)
             if ttc < datetime.datetime.now():
                 db.set(
-                    "spotify",
+                    "custom.spotify",
                     "token",
                     sp_auth.refresh_access_token(
                         db.get("custom.spotify", "token")["refresh_token"]
                     ),
                 )
                 db.set(
-                    "spotify", "last_token_update", datetime.datetime.now().isoformat()
+                    "custom.spotify", "last_token_update", datetime.datetime.now().isoformat()
                 )
 
 
