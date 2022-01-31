@@ -7,7 +7,7 @@ from utils.misc import modules_help, prefix
 
 
 @Client.on_message(filters.command("calc", prefix) & filters.me)
-async def calc(client: Client, message: Message):
+async def calc(_, message: Message):
     if len(message.command) <= 1:
         return
     args = " ".join(message.command[1:])
@@ -36,12 +36,11 @@ async def calc(client: Client, message: Message):
         await message.edit(f"<i>{args}=</i><b>=</b><code>{e}</code>", parse_mode="HTML")
 
 
-modules_help.append(
-    {
-        "calculator": [
-            {
-                "calc [expression]*": "Solve a math problem\n+ – addition\n– – subtraction\n* – multiplication\n/ – division\n** – degree"
-            }
-        ]
-    }
-)
+modules_help["calculator"] = {
+    "calc [expression]*": "solve a math problem\n"
+    "+ – addition\n"
+    "– – subtraction\n"
+    "* – multiplication\n"
+    "/ – division\n"
+    "** – degree"
+}

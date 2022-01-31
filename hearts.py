@@ -88,6 +88,6 @@ async def hearts(client: Client, message: Message):
     await message.edit(final_caption)
 
 
-modules_help.append(
-    {"hearts": [{"hearts": "Heart animation !!MAY CAUSE FLOODWAITS/BE LAGGY!"}]}
-)
+modules_help["hearts"] = {
+    "hearts": "Heart animation. May cause floodwaits, use at your own risk!"
+}

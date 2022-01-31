@@ -25,4 +25,6 @@ async def tagall(client: Client, message: Message):
             await asyncio.sleep(2)
 
 
-modules_help.append({"tagall": [{"tagall": "Tag all members"}]})
+modules_help["tagall"] = {
+    "tagall": "Tag all members",
+}

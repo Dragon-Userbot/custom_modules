@@ -20,28 +20,20 @@ async def send_comment(client: Client, message: Message):
 
 
 @Client.on_message(filters.command(["auto_comment", "ac"], prefix) & filters.me)
-async def auto_comment(client: Client, message: Message):
-    command = message.command[1]
-    if message.command[1] == "enable":
-        if len(message.command) == 2:
-            return await message.edit("<b>You didn't provide comment text</b>")
-        db.set(
-            "custom.auto_comment", "comment", {"enable": " ".join(message.command[2:])}
-        )
+async def auto_comment(_, message: Message):
+    if len(message.command) > 1:
+        comment = message.text.split(maxsplit=1)[1]
+        db.set("custom.auto_comment", "enabled", True)
+        db.set("custom.auto_comment", "text", comment)
+
         await message.edit(
-            f"<i>Auto comment enabled</i>\n<b>Comment:</b><code> {' '.join(message.command[2:])}</code>"
+            f"<b>Auto comment enabled\nComment: </b><code>{comment}</code>"
         )
-    elif message.command[1] == "disable":
-        db.set("custom.auto_comment", "comment", {"disable": None})
-        await message.edit("<i>Auto comment disabled</i>")
+    else:
+        db.set("custom.auto_comment", "enabled", False)
+        await message.edit("<b>Auto comment disabled</b>")
 
 
-modules_help.append(
-    {
-        "Auto comment": [
-            {
-                "auto_comment [enable/disable]* [text]": "Enable/disable auto-reply to posts in channels"
-            }
-        ]
-    }
-)
+modules_help["auto_comment"] = {
+    "auto_comment [text]*": "enable auto-reply to posts in channels. Running without text equals to disable"
+}

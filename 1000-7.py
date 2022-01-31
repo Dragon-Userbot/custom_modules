@@ -18,33 +18,26 @@ def prettify(val: int) -> str:
 
 
 @Client.on_message(filters.command("ghoul", prefix) & filters.me)
-async def ghoul_counter(_: Client, m: Message):
-    await m.delete()
-    counter = 1000
+async def ghoul_counter(_, message: Message):
+    await message.delete()
 
-    if len(m.command) > 1:
-        _ = m.command[1]
-        if _.isdigit():
-            counter = int(_)
+    if len(message.command) > 1 and message.command[1].isdigit():
+        counter = int(message.command[1])
+    else:
+        counter = 1000
 
-    message = await m.reply_text(prettify(counter), quote=False)
+    msg = await message.reply(prettify(counter), quote=False)
 
     await sleep(1)
 
     while counter // 7:
         counter -= 7
-        await message.edit_text(prettify(counter))
+        await msg.edit(prettify(counter))
         await sleep(1)
 
-    await message.edit_text("<b>🤡 ГУЛЬ 🤡</b>")
+    await msg.edit("<b>🤡 ГУЛЬ 🤡</b>")
 
 
-modules_help.append(
-    {
-        "1000-7": [
-            {
-                "ghoul {count_from}": "counting from 1000 (or given <code>count_from</code>) to 0 as a ghoul"
-            }
-        ]
-    }
-)
+modules_help["1000-7"] = {
+    "ghoul [count_from]": "counting from 1000 (or given [count_from] to 0 as a ghoul"
+}

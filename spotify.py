@@ -10,28 +10,7 @@ from utils.misc import modules_help, prefix
 from utils.db import db
 from utils.scripts import import_library
 
-import json
-
 spotipy = import_library("spotipy")
-import spotipy
-
-modules_help.append(
-    {
-        "spotify": [
-            {"spauth": "First auth step"},
-            {"spcodeauth": "Second auth step"},
-            {"now": "Display now playing track"},
-            {"repeat": "Set track on-repeat"},
-            {"derepeat": "Set track out from repeat"},
-            {"next": "Turn on next track"},
-            {"back": "Turn on previous track"},
-            {"restr": "Restart currently playing track from start"},
-            {"liketr": "Like current playing track"},
-            {"pausetr": "Pause current playing track"},
-            {"unpausetr": "Play currently paused track "},
-        ]
-    }
-)
 
 client_id = "e0708753ab60499c89ce263de9b4f57a"
 client_secret = "80c927166c664ee98a43a2c0e2981b4a"
@@ -412,3 +391,18 @@ async def liketr(client: Client, message: Message):
             "<b>⚠️Произошла какая-то ошибка. Проверьте, что вы все делаете верно.\n"
             f"Ошибка:</b> <code>{e.__class__.__name__}</code>"
         )
+
+
+modules_help["spotify"] = {
+    "spauth": "First auth step",
+    "spcodeauth": "Second auth step",
+    "now": "Display now playing track",
+    "repeat": "Set track on-repeat",
+    "derepeat": "Set track out from repeat",
+    "next": "Turn on next track",
+    "back": "Turn on previous track",
+    "restr": "Restart currently playing track from start",
+    "liketr": "Like current playing track",
+    "pausetr": "Pause current playing track",
+    "unpausetr": "Play currently paused track",
+}

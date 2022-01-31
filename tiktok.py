@@ -1,46 +1,36 @@
-import asyncio
-
 from pyrogram import Client, filters
-from pyrogram.raw import functions
 from pyrogram.types import Message
 from utils.misc import modules_help, prefix
+from utils.scripts import interact_with, interact_with_to_delete, format_exc
 
 
 @Client.on_message(filters.command("tt", prefix) & filters.me)
 async def tiktok(client: Client, message: Message):
+    if len(message.command) > 1:
+        link = message.command[1]
+    elif message.reply_to_message:
+        link = message.reply_to_message.text
+    else:
+        await message.edit("<b>Link isn't provided</b>")
+        return
+
     try:
-        if message.reply_to_message:
-            link = message.reply_to_message.text
-        elif len(message.command) == 2:
-            link = message.command[1]
-        else:
-            return await message.edit(
-                "<i>Вы не указали ссылку, ознакомьтесь с документацией этого модуля</i>"
-            )
-        await message.edit("<i>Загрузка...</i>")
-        await client.send_message("@downloader_tiktok_bot", link)
-        await asyncio.sleep(3)
-        messages = await client.get_history("@downloader_tiktok_bot")
-        video = messages[0].video.file_id
+        await message.edit("<b>Downloading...</b>")
+        await client.unblock_user("@downloader_tiktok_bot")
+        msg = await interact_with(
+            await client.send_message("@downloader_tiktok_bot", link)
+        )
+        await client.send_video(
+            message.chat.id, msg.video.file_id, caption=f"<b>Link: {link}</b>"
+        )
+    except Exception as e:
+        await message.edit(format_exc(e))
+    else:
         await message.delete()
-        await client.send_video(message.chat.id, video)
-        await client.send(
-            functions.messages.DeleteHistory(
-                peer=await client.resolve_peer("@downloader_tiktok_bot"),
-                max_id=0,
-                revoke=True,
-            )
-        )
-    except AttributeError:
-        return await msg.edit(
-            "<i>Произошла ошибка при скачивании, попробуйте снова!</i>"
-        )
+        await client.delete_messages("@downloader_tiktok_bot", interact_with_to_delete)
+        interact_with_to_delete.clear()
 
 
-modules_help.append(
-    {
-        "tiktok": [
-            {"tt [link]/[reply]*": "Скачать видео из TikTok и отправить его в чат"}
-        ]
-    }
-)
+modules_help["tiktok"] = {
+    "tt [link|reply]*": "download video from tiktok",
+}

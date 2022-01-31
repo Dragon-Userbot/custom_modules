@@ -56,4 +56,4 @@ async def jac(client: Client, message: Message):
         await client.send_photo(message.chat.id, out)
 
 
-modules_help.append({"jac": [{"jac [text]/[reply]*": "Generate Jacque Fresco quote"}]})
+modules_help["jac"] = {"jac [text]/[reply]*": "generate Jacque Fresco quote"}
