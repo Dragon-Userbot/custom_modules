@@ -98,7 +98,7 @@ async def check_token():
 async def check_token_loop():
     while True:
         await check_token()
-        await asyncio.sleep(3000)
+        await asyncio.sleep(600)
 
 
 loop = asyncio.get_event_loop()
