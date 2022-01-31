@@ -8,14 +8,13 @@ from utils.db import db
 
 @Client.on_message(filters.channel & ~filters.edited)
 async def send_comment(client: Client, message: Message):
-    auto_comment = db.get("custom.auto_comment", "comment", {"disable": None})
+    enabled = db.get("custom.auto_comment", "enabled", False)
     with suppress(MsgIdInvalid):
-        if list(auto_comment.keys())[0] == "enable":
-            print(message.chat.id)
+        if enabled:
             msg = await client.get_discussion_message(
                 message.chat.id, message.message_id
             )
-            await msg.reply(auto_comment["enable"])
+            await msg.reply(db.get("custom.auto_comment", "text"))
     raise ContinuePropagation
 
 
