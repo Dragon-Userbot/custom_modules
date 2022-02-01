@@ -44,7 +44,7 @@ async def check_token():
     if db.get("custom.spotify", "token") is not None:
         if db.get("custom.spotify", "last_token_update") is None:
             db.set(
-                "spotify",
+                "custom.spotify",
                 "token",
                 sp_auth.refresh_access_token(
                     db.get("custom.spotify", "token")["refresh_token"]
