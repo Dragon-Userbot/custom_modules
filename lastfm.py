@@ -31,7 +31,7 @@ async def lfauth(client: Client, message: Message):
         pylast.LastFMNetwork(api_key="a36b285105b787164c0fa2a053713564", api_secret="17595264a10181404441bc52302eea32"))
     url = sg.get_web_auth_url()
     token = sg.web_auth_tokens[url]
-    await message.edit(f'<b>ℹ️Go to <a href="{url}">this link</a> and grant access.\n'
+    await message.edit(f'<b>ℹ️Go to {url} and grant access.\n'
                        f'After this, run <code>{prefix}lfconfirm</code> command</b>', disable_web_page_preview=True)
     db.set("custom.lastfm", "request_url", url)
     db.set("custom.lastfm", "request_token", token)
