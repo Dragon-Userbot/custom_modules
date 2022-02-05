@@ -119,15 +119,15 @@ async def codeauth(client: Client, message: Message):
             )
 
 
-@Client.on_message(filters.command("unauth", prefix) & filters.me)
+@Client.on_message(filters.command("spunauth", prefix) & filters.me)
 @auth_required
 async def unauth(client: Client, message: Message):
-    db.remove("spotify", "token")
-    db.remove("spotify", "last_token_update")
+    db.remove("custom.spotify", "token")
+    db.remove("custom.spotify", "last_token_update")
     await message.edit("<b>✅Данные авторизации удалены успешно.</b>")
 
 
-@Client.on_message(filters.command("now", prefix) & filters.me)
+@Client.on_message(filters.command("spnow", prefix) & filters.me)
 @auth_required
 async def now(client: Client, message: Message):
     sp = spotipy.Spotify(auth=db.get("custom.spotify", "token")["access_token"])
@@ -248,6 +248,42 @@ async def now(client: Client, message: Message):
             for r in (
                 await client.get_inline_bot_results(
                     "vkm4bot", f"{', '.join(artists_names)} - {track}"
+                )
+            )["results"]:
+                if r["type"] == "audio":
+                    await client.send_cached_media(
+                        message.chat.id,
+                        Document._parse(client, r["document"], "audio")["file_id"],
+                        res,
+                        reply_to_message_id=(
+                            message.reply_to_message.message_id
+                            if message.reply_to_message is not None
+                            else None
+                        ),
+                    )
+                    await message.delete()
+                    return
+            for r in (
+                await client.get_inline_bot_results(
+                    "spotifysavebot", f"{', '.join(artists_names)} - {track}"
+                )
+            )["results"]:
+                if r["type"] == "audio":
+                    await client.send_cached_media(
+                        message.chat.id,
+                        Document._parse(client, r["document"], "audio")["file_id"],
+                        res,
+                        reply_to_message_id=(
+                            message.reply_to_message.message_id
+                            if message.reply_to_message is not None
+                            else None
+                        ),
+                    )
+                    await message.delete()
+                    return
+            for r in (
+                await client.get_inline_bot_results(
+                    "lybot", f"{', '.join(artists_names)} - {track}"
                 )
             )["results"]:
                 if r["type"] == "audio":
@@ -396,7 +432,8 @@ async def liketr(client: Client, message: Message):
 modules_help["spotify"] = {
     "spauth": "First auth step",
     "spcodeauth": "Second auth step",
-    "now": "Display now playing track",
+    "spunauth": "Remove auth data",
+    "spnow": "Display now playing track",
     "repeat": "Set track on-repeat",
     "derepeat": "Set track out from repeat",
     "next": "Turn on next track",
