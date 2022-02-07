@@ -243,7 +243,7 @@ async def now(client: Client, message: Message):
                 <code>{bar}</code></b>
             """
         )
-        err = False
+
         try:
             for r in (
                 await client.get_inline_bot_results(
@@ -263,6 +263,9 @@ async def now(client: Client, message: Message):
                     )
                     await message.delete()
                     return
+        except:
+            pass
+        try:
             for r in (
                 await client.get_inline_bot_results(
                     "spotifysavebot", f"{', '.join(artists_names)} - {track}"
@@ -281,6 +284,9 @@ async def now(client: Client, message: Message):
                     )
                     await message.delete()
                     return
+        except:
+            pass
+        try:
             for r in (
                 await client.get_inline_bot_results(
                     "lybot", f"{', '.join(artists_names)} - {track}"
@@ -299,16 +305,10 @@ async def now(client: Client, message: Message):
                     )
                     await message.delete()
                     return
-        except Exception as e:
-            err = True
-            res += (
-                "\n<b>ℹ️Не удалось найти песню.\nОшибка:</b>"
-                f" <code>{e.__class__.__name__}</code>"
-            )
-            await message.edit(res, disable_web_page_preview=True)
-        if not err:
-            res += "\n<b>ℹ️Не удалось найти песню.</b>"
-            await message.edit(res, disable_web_page_preview=True)
+        except:
+            pass
+        res += "\n<b>ℹ️Не удалось найти песню.</b>"
+        await message.edit(res, disable_web_page_preview=True)
     else:
         await message.edit(
             "<b>⚠️Не удалось получить трек\n"

@@ -28,11 +28,18 @@ def auth_required(function):
 @Client.on_message(filters.command("lfauth", prefix) & filters.me)
 async def lfauth(client: Client, message: Message):
     sg = pylast.SessionKeyGenerator(
-        pylast.LastFMNetwork(api_key="a36b285105b787164c0fa2a053713564", api_secret="17595264a10181404441bc52302eea32"))
+        pylast.LastFMNetwork(
+            api_key="a36b285105b787164c0fa2a053713564",
+            api_secret="17595264a10181404441bc52302eea32",
+        )
+    )
     url = sg.get_web_auth_url()
     token = sg.web_auth_tokens[url]
-    await message.edit(f'<b>ℹ️Go to {url} and grant access.\n'
-                       f'After this, run <code>{prefix}lfconfirm</code> command</b>', disable_web_page_preview=True)
+    await message.edit(
+        f"<b>ℹ️Go to {url} and grant access.\n"
+        f"After this, run <code>{prefix}lfconfirm</code> command</b>",
+        disable_web_page_preview=True,
+    )
     db.set("custom.lastfm", "request_url", url)
     db.set("custom.lastfm", "request_token", token)
 
@@ -40,17 +47,25 @@ async def lfauth(client: Client, message: Message):
 @Client.on_message(filters.command("lfconfirm", prefix) & filters.me)
 async def lfconfirmauth(client: Client, message: Message):
     sg = pylast.SessionKeyGenerator(
-        pylast.LastFMNetwork(api_key="a36b285105b787164c0fa2a053713564", api_secret="17595264a10181404441bc52302eea32"))
+        pylast.LastFMNetwork(
+            api_key="a36b285105b787164c0fa2a053713564",
+            api_secret="17595264a10181404441bc52302eea32",
+        )
+    )
     try:
-        session_key, username = sg.get_web_auth_session_key_username(db.get("custom.lastfm", "request_url", "null"),
-                                                                     db.get("custom.lastfm", "request_token", "null"))
+        session_key, username = sg.get_web_auth_session_key_username(
+            db.get("custom.lastfm", "request_url", "null"),
+            db.get("custom.lastfm", "request_token", "null"),
+        )
         db.set("custom.lastfm", "session_key", session_key)
         db.set("custom.lastfm", "username", username)
         db.remove("custom.lastfm", "request_url")
         db.remove("custom.lastfm", "request_token")
     except Exception as e:
-        await message.edit("<b>⚠️Something went wrong.\nInfo about error: </b>"
-                           f"<code>{format_exc(e)}</code></b>")
+        await message.edit(
+            "<b>⚠️Something went wrong.\nInfo about error: </b>"
+            f"<code>{format_exc(e)}</code></b>"
+        )
         return
     await message.edit("<b>✅Authorized.</b>")
 
@@ -58,9 +73,12 @@ async def lfconfirmauth(client: Client, message: Message):
 @Client.on_message(filters.command("lfnow", prefix) & filters.me)
 @auth_required
 async def example_edit(client: Client, message: Message):
-    nw = pylast.LastFMNetwork(api_key="a36b285105b787164c0fa2a053713564", api_secret="17595264a10181404441bc52302eea32",
-                              session_key=db.get("custom.lastfm", "session_key"),
-                              username=db.get("custom.lastfm", "username"))
+    nw = pylast.LastFMNetwork(
+        api_key="a36b285105b787164c0fa2a053713564",
+        api_secret="17595264a10181404441bc52302eea32",
+        session_key=db.get("custom.lastfm", "session_key"),
+        username=db.get("custom.lastfm", "username"),
+    )
     if len(message.text.split()) > 1:
         try:
             track = nw.get_user(message.text.split()[1]).get_now_playing()
@@ -69,7 +87,9 @@ async def example_edit(client: Client, message: Message):
             return
         if track is None:
             try:
-                track = nw.get_user(message.text.split()[1]).get_recent_tracks(1)[0].track
+                track = (
+                    nw.get_user(message.text.split()[1]).get_recent_tracks(1)[0].track
+                )
             except:
                 await message.edit(f"<b>Nothing is playing.</b>")
                 return
@@ -77,7 +97,11 @@ async def example_edit(client: Client, message: Message):
         track = nw.get_user(db.get("custom.lastfm", "username")).get_now_playing()
         if track is None:
             try:
-                track = nw.get_user(db.get("custom.lastfm", "username")).get_recent_tracks(1)[0].track
+                track = (
+                    nw.get_user(db.get("custom.lastfm", "username"))
+                    .get_recent_tracks(1)[0]
+                    .track
+                )
             except:
                 await message.edit(f"<b>Nothing is playing.</b>")
                 return
@@ -91,13 +115,10 @@ async def example_edit(client: Client, message: Message):
             <b>🎶 Now playing: <i><a href="{link}">{track}</a></i></b>
         """
     )
-    err = False
     try:
-        for r in (
-                await client.get_inline_bot_results(
-                    "vkm4bot", str(track)
-                )
-        )["results"]:
+        for r in (await client.get_inline_bot_results("vkm4bot", str(track)))[
+            "results"
+        ]:
             if r["type"] == "audio":
                 await client.send_cached_media(
                     message.chat.id,
@@ -111,11 +132,12 @@ async def example_edit(client: Client, message: Message):
                 )
                 await message.delete()
                 return
-        for r in (
-                await client.get_inline_bot_results(
-                    "spotifysavebot", str(track)
-                )
-        )["results"]:
+    except:
+        pass
+    try:
+        for r in (await client.get_inline_bot_results("spotifysavebot", str(track)))[
+            "results"
+        ]:
             if r["type"] == "audio":
                 await client.send_cached_media(
                     message.chat.id,
@@ -129,11 +151,10 @@ async def example_edit(client: Client, message: Message):
                 )
                 await message.delete()
                 return
-        for r in (
-                await client.get_inline_bot_results(
-                    "lybot", str(track)
-                )
-        )["results"]:
+    except:
+        pass
+    try:
+        for r in (await client.get_inline_bot_results("lybot", str(track)))["results"]:
             if r["type"] == "audio":
                 await client.send_cached_media(
                     message.chat.id,
@@ -147,16 +168,11 @@ async def example_edit(client: Client, message: Message):
                 )
                 await message.delete()
                 return
-    except Exception as e:
-        err = True
-        res += (
-            "\n<b>ℹ️Song not found due to error.\n</b>"
-            f" <code>{format_exc(e)}</code>"
-        )
-        await message.edit(res, disable_web_page_preview=True)
-    if not err:
-        res += "\n<b>ℹ️Song not found.</b>"
-        await message.edit(res, disable_web_page_preview=True)
+    except:
+        pass
+    res += "\n<b>ℹ️Song not found.</b>"
+    await message.edit(res, disable_web_page_preview=True)
+
 
 modules_help["lastfm"] = {
     "lfnow [username]": "Show now playing track using last.fm",
