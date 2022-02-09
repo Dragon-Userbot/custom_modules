@@ -3,7 +3,7 @@ import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from ..utils.utils import modules_help, prefix
+from utils.misc import modules_help, prefix
 
 
 @Client.on_message(filters.command("tagall", prefix) & filters.me)
@@ -25,4 +25,6 @@ async def tagall(client: Client, message: Message):
             await asyncio.sleep(2)
 
 
-modules_help.append({"tagall": [{"tagall": "Tag all members"}]})
+modules_help["tagall"] = {
+    "tagall": "Tag all members",
+}

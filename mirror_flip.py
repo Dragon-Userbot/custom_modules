@@ -1,11 +1,15 @@
 # original module https://raw.githubusercontent.com/KeyZenD/modules/master/MirrorFlipV2.py | t.me/the_kzd
 import os
 
-from PIL import Image, ImageOps
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from ..utils.utils import modules_help, prefix
+from utils.misc import modules_help, prefix
+from utils.scripts import import_library
+
+PIL = import_library("PIL", "pillow")
+from PIL import Image, ImageOps
 
 
 async def make(client, message, o):
@@ -42,18 +46,14 @@ async def make(client, message, o):
 
 @Client.on_message(filters.command(["ll", "rr", "dd", "uu"], prefix) & filters.me)
 async def mirror_flip(client: Client, message: Message):
-    await message.edit("<code>Processing...</code>")
+    await message.edit("<b>Processing...</b>")
     param = {"ll": 1, "rr": 2, "dd": 3, "uu": 4}[message.command[0]]
     await make(client, message, param)
 
 
-modules_help.append(
-    {
-        "mirror_flip": [
-            {"ll [reply on photo or sticker]*": "reflects the left side"},
-            {"rr [reply on photo or sticker]*": "reflects the right side"},
-            {"uu [reply on photo or sticker]*": "reflects the top"},
-            {"dd [reply on photo or sticker]*": "reflects the bottom"},
-        ]
-    }
-)
+modules_help["mirror_flip"] = {
+    "ll [reply on photo or sticker]*": "reflects the left side",
+    "rr [reply on photo or sticker]*": "reflects the right side",
+    "uu [reply on photo or sticker]*": "reflects the top",
+    "dd [reply on photo or sticker]*": "reflects the bottom",
+}

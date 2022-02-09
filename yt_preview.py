@@ -1,10 +1,9 @@
 import urllib
-import pyrogram
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from ..utils.utils import modules_help, prefix
+from utils.misc import modules_help, prefix
 
 MAX_URL = "https://img.youtube.com/vi/{id}/maxresdefault.jpg"
 HQ_URL = "https://img.youtube.com/vi/{id}/hqdefault.jpg"
@@ -18,7 +17,7 @@ def get_video_id(url):
 
 
 @Client.on_message(filters.command("preview", prefix) & filters.me)
-async def preview(client, message):
+async def preview(client: Client, message: Message):
     try:
         if message.reply_to_message:
             video_id = get_video_id(message.reply_to_message.text)
@@ -82,12 +81,11 @@ async def preview(client, message):
         await message.edit(f"This <a href='{video_id}'>link</a> does not exist")
 
 
-modules_help.append(
-    {
-        "yt_preview": [
-            {
-                "preview [link]* 1/2/3/4/5": "Download the preview from the link\n1 - Preview, link\n2 - Download link\n3 - link\n4 - Preview, ling\n5 - Preview Your Text"
-            },
-        ]
-    }
-)
+modules_help["yt_preview"] = {
+    "preview [link]* 1/2/3/4/5": "Download the preview from the link\n"
+    "1 - Preview, link\n"
+    "2 - Download link\n"
+    "3 - link\n"
+    "4 - Preview, ling\n"
+    "5 - Preview Your Text"
+}

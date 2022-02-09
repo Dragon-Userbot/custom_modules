@@ -1,12 +1,15 @@
 import io
 from textwrap import wrap
 
-import requests
-from PIL import Image, ImageFont, ImageDraw
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from ..utils.utils import modules_help, prefix
+from utils.misc import modules_help, prefix
+from utils.scripts import import_library
+
+requests = import_library("requests")
+PIL = import_library("PIL", "pillow")
+from PIL import Image, ImageFont, ImageDraw
 
 
 @Client.on_message(filters.command(["j", "jac"], prefix) & filters.me)
@@ -53,4 +56,4 @@ async def jac(client: Client, message: Message):
         await client.send_photo(message.chat.id, out)
 
 
-modules_help.append({"jac": [{"jac [text]/[reply]*": "Generate Jacque Fresco quote"}]})
+modules_help["jac"] = {"jac [text]/[reply]*": "generate Jacque Fresco quote"}

@@ -4,7 +4,7 @@ import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors.exceptions.flood_420 import FloodWait
-from ..utils.utils import modules_help, prefix
+from utils.misc import modules_help, prefix
 
 R = "❤️"
 W = "🤍"
@@ -88,6 +88,6 @@ async def hearts(client: Client, message: Message):
     await message.edit(final_caption)
 
 
-modules_help.append(
-    {"hearts": [{"hearts": "Heart animation !!MAY CAUSE FLOODWAITS/BE LAGGY!"}]}
-)
+modules_help["hearts"] = {
+    "hearts": "Heart animation. May cause floodwaits, use at your own risk!"
+}

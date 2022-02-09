@@ -1,19 +1,16 @@
-from os import system, remove
+from os import remove
 from random import randint
 
 from pyrogram import Client, filters
 
-from ..utils.utils import modules_help, prefix
+from utils.misc import modules_help, prefix
+from utils.scripts import import_library
 
-try:
-    from wget import download
-except:
-    system("pip install wget")
-    system("python main.py")
+wget = import_library("wget")
 
 
 def download_sticker(url):
-    download(url, "f.webp")
+    wget.download(url, "f.webp")
 
 
 @Client.on_message(filters.command(["f"], prefix) & filters.me)
