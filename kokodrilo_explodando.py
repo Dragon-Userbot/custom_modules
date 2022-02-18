@@ -18,5 +18,5 @@ async def kokodrilo_explodando(_, message: Message):
 
 
 modules_help["kokodrilo_explodando"] = {
-    "kokodrilo [number of explosions]*": "<b>kOkOdRiLo ExPlOrAdO</b>",
+    "kokodrilo [number of explosions]": "<b>kOkOdRiLo ExPlOrAdO</b>",
 }
