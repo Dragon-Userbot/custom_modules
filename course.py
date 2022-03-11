@@ -21,7 +21,7 @@ from pyrogram.types import Message
 from utils.scripts import format_exc, import_library
 from utils.misc import modules_help, prefix
 
-bs4 = import_library("bs4", "beautifulsoup")
+bs4 = import_library("bs4", "beautifulsoup4")
 from bs4 import BeautifulSoup
 
 headers = {
