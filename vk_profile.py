@@ -5,7 +5,7 @@ from requests import get
 from utils.misc import modules_help, prefix
 from utils.scripts import import_library
 
-bs4 = import_library("bs4", "beautifulsoup")
+bs4 = import_library("bs4", "beautifulsoup4")
 from bs4 import BeautifulSoup
 
 headers = {
