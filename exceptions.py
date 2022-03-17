@@ -7,8 +7,6 @@ motor = import_library("motor")
 
 import motor.motor_asyncio
 
-class StopConversation(Exception):
-    """raise if conversation has terminated"""
     
 def paste(TEXT):
       url = "https://del.dog/documents"
