@@ -13,11 +13,11 @@ async def gmute(client, message):
     else:
         user = get_arg(message)
         if not user:
-            await message.edit("Whom should I gmute?")
+            await message.edit("<b>Whom should I gmute?</b>")
             return
     get_user = await client.get_users(user)
     await gmute_user(get_user.id)
-    await message.edit(f"Gmuted {get_user.first_name}, LOL!")
+    await message.edit(f"<b>Gmuted {get_user.first_name}, LOL!</b>")
 
 
 @Client.on_message(filters.command("ungmute", prefix) & filters.me)
@@ -28,14 +28,14 @@ async def ungmute(client, message):
     else:
         user = get_arg(message)
         if not user:
-            await message.edit("Whom should I ungmute?")
+            await message.edit("<b>Whom should I ungmute?</b>")
             return
     get_user = await client.get_users(user)
     await ungmute_user(get_user.id)
-    await message.edit(f"Unmuted {get_user.first_name}, enjoy!")
+    await message.edit(f"<b>Unmuted {get_user.first_name}, enjoy!</b>")
 
 
-@Client.on_message(filters.group & filters.incoming)
+@Client.on_message(filters.command("gmute", prefix) & filters.group & filters.incoming)
 async def check_and_del(client, message):
     if not message:
         return
@@ -49,7 +49,7 @@ async def check_and_del(client, message):
         await client.delete_messages(message.chat.id, message_id)
     except:
         pass  # you don't have delete rights
-    
+        
 modules_help["gban_fun"] = {
     "gban": "does a prank of global banning of user",
     "ungban": "ungloban user"
