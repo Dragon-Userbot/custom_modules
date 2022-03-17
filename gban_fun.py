@@ -50,6 +50,4 @@ async def check_and_del(client, message):
     except:
         pass  # you don't have delete rights
     
-modules_help["ban"](
-    {"ban": [{"gban": "does a prank of gbanning user"}, {"ungban": "does a prank of ungbanning user"}]}
-)
+modules_help["tts"] = {"gban/ungban": "does a prank of gbanning or ungbanning of user"}
