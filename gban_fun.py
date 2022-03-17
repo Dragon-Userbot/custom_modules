@@ -49,3 +49,7 @@ async def check_and_del(client, message):
         await client.delete_messages(message.chat.id, message_id)
     except:
         pass  # you don't have delete rights
+    
+modules_help["ban"](
+    {"ban": [{"gban": "does a prank of gbanning user"}, {"ungban": "does a prank of ungbanning user"}]}
+)
