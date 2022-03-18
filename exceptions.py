@@ -49,7 +49,7 @@ def get_arg(message):
         return ""
     return " ".join(split[1:])
     
-async def CheckAdmin(message: Message):
+async def check_admin(message: Message):
     """Check if we are an admin."""
     admin = "administrator"
     creator = "creator"
