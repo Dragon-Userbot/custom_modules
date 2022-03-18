@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from utils.misc import modules_help, requirements_list, prefix
 from time import sleep, time
-from custom_modules.exceptions import get_gmuted_users, gmute_user, ungmute_user, get_arg, CheckAdmin
+from custom_modules.exceptions import get_gmuted_users, gmute_user, ungmute_user, get_arg, check_admin
 
 
 @Client.on_message(filters.command("gmute", prefix) & filters.me)
