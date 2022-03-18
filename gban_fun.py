@@ -35,7 +35,7 @@ async def ungmute(client, message):
     await message.edit(f"<b>Unmuted {get_user.first_name}, enjoy!</b>")
 
 
-@Client.on_message(filters.command("gmute", prefix) & filters.group & filters.incoming)
+@Client.on_message(filters.group & filters.incoming)
 async def check_and_del(client, message):
     if not message:
         return
@@ -50,7 +50,7 @@ async def check_and_del(client, message):
     except:
         pass  # you don't have delete rights
         
-modules_help["gban_fun"] = {
-    "gban": " global mute of user",
-    "ungban": "unmute user from global ban"
+modules_help["gmute"] = {
+    "gmute": " global mute of user",
+    "ungmute": "unmute user from global ban"
 }
