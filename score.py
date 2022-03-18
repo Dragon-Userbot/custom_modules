@@ -1,42 +1,38 @@
 from utils.scripts import import_library
-from utils.misc import modules_help, requirements_list, prefix
+from utils.misc import modules_help, prefix
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from bs4 import BeautifulSoup
-from typing import Tuple, Union
+from typing import Union
+
 aiohttp = import_library("aiohttp")
-import aiohttp
 
 
 def get_text(message: Message) -> Union[str, None]:
     """Extract Text From Commands"""
-    text_to_return = message.text
     if message.text is None:
-        return None
-    if " " in text_to_return:
-        try:
-            return message.text.split(None, 1)[1]
-        except IndexError:
-            return None
-    else:
-        return None
+        return
+    if " " not in message.text:
+        return
+    try:
+        return message.text.split(None, 1)[1]
+    except IndexError:
+        pass
 
 
 @Client.on_message(filters.command("score", prefix) & filters.me)
-async def score(client, message):
+async def score(_, message: Message):
     score_page = "http://static.cricinfo.com/rss/livescores.xml"
     async with aiohttp.ClientSession() as session:
-      async with session.get(score_page) as resp:
-          page = await resp.text()
+        async with session.get(score_page) as resp:
+            page = await resp.text()
     soup = BeautifulSoup(page, "html.parser")
     result = soup.find_all("description")
-    Sed = "".join(match.get_text() + "\n\n" for match in result)
+    sed = "".join(match.get_text() + "\n\n" for match in result)
     await message.edit(
-        
-        f"<b>Match information:</b><u> Credits Friday team</u>\n\n\n<code>{Sed}</code>",
+        f"<b>Match information:</b><u> Credits Friday team</u>\n\n\n<code>{sed}</code>",
         parse_mode="html",
     )
-    
-modules_help["score"] = {
-    "score": "get live cricket scores"
-}
+
+
+modules_help["score"] = {"score": "get live cricket scores"}

@@ -1,56 +1,64 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, errors
 from pyrogram.types import Message
-from utils.misc import modules_help, requirements_list, prefix
-from time import sleep, time
-from custom_modules.exceptions import get_gmuted_users, gmute_user, ungmute_user, get_arg, check_admin
+from utils.misc import modules_help, prefix
+from utils.db import db
+
+
+def get_arg(message):
+    msg = message.text
+    msg = msg.replace(" ", "", 1) if msg[1] == " " else msg
+    split = msg[1:].replace("\n", " \n").split(" ")
+    if " ".join(split[1:]).strip() == "":
+        return ""
+    return " ".join(split[1:])
 
 
 @Client.on_message(filters.command("gmute", prefix) & filters.me)
 async def gmute(client, message):
-    reply = message.reply_to_message
-    if reply:
-        user = reply.from_user["id"]
+    if reply := message.reply_to_message:
+        user = reply.from_user.id
     else:
         user = get_arg(message)
         if not user:
             await message.edit("<b>Whom should I gmute?</b>")
             return
     get_user = await client.get_users(user)
-    await gmute_user(get_user.id)
+    gmuted_users = db.get("core.gmute", "gmuted_users", [])
+    gmuted_users.append(get_user.id)
+    db.set("custom.gmute", "gmuted_users", gmuted_users)
     await message.edit(f"<b>Gmuted {get_user.first_name}, LOL!</b>")
 
 
 @Client.on_message(filters.command("ungmute", prefix) & filters.me)
 async def ungmute(client, message):
-    reply = message.reply_to_message
-    if reply:
-        user = reply.from_user["id"]
+    if reply := message.reply_to_message:
+        user = reply.from_user.id
     else:
         user = get_arg(message)
         if not user:
             await message.edit("<b>Whom should I ungmute?</b>")
             return
     get_user = await client.get_users(user)
-    await ungmute_user(get_user.id)
+    gmuted_users = db.get("core.gmute", "gmuted_users", [])
+    try:
+        gmuted_users.remove(get_user.id)
+    except ValueError:
+        pass
+    db.set("custom.gmute", "gmuted_users", gmuted_users)
     await message.edit(f"<b>Unmuted {get_user.first_name}, enjoy!</b>")
 
 
 @Client.on_message(filters.group & filters.incoming)
-async def check_and_del(client, message):
-    if not message:
-        return
-    try:
-        if not message.from_user.id in (await get_gmuted_users()):
-            return
-    except AttributeError:
-        return
-    message_id = message.message_id
-    try:
-        await client.delete_messages(message.chat.id, message_id)
-    except:
-        pass  # you don't have delete rights
-        
+async def check_and_del(_, message: Message):
+    if message.from_user.id in db.get("custom.gmute", "gmuted_users", []):
+        try:
+            await message.delete()
+        except errors.RPCError:
+            pass  # you don't have delete rights
+    message.continue_propagation()
+
+
 modules_help["gmute"] = {
     "gmute": " global mute of user",
-    "ungmute": "unmute user from global ban"
+    "ungmute": "unmute user from global ban",
 }
