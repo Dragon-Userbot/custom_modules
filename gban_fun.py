@@ -51,6 +51,6 @@ async def check_and_del(client, message):
         pass  # you don't have delete rights
         
 modules_help["gban_fun"] = {
-    "gban": "does a prank of global banning of user",
-    "ungban": "ungloban user"
+    "gban": " global mute of user",
+    "ungban": "unmute user from global ban"
 }
