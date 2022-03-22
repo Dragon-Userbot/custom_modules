@@ -29,7 +29,7 @@ async def auto_comment(_, message: Message):
             f"<b>Auto comment enabled\nComment:</b> <code>{comment}</code>"
         )
     else:
-        db.set("custom.auto_comment", "disabled", False)
+        db.set("custom.auto_comment", "enabled", False)
         await message.edit("<b>Auto comment disabled</b>")
 
 
