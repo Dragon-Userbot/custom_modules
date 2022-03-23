@@ -4,3 +4,4 @@ Used SHA-256
 c3a0b2b82681f01b2aaacca1a90da26849985cbb576487faca959d01f777742f - test.py from https://github.com/john-phonk/john-phonk/blob/main/test.py
 87851fdc842687d307d118ca5e3011a8f42fc164cd3be0fe2068b8e0ee2867a4 - voice_spam.py from https://raw.githubusercontent.com/john-phonk/john-phonk/main/voice_spam.py
 801206c0302e3d674874e5df45eb9c217906fe3207f0d8655b4a6d141ffa8051 - voicy.py from https://github.com/ahmedov777-ai/custom_modules/blob/main/voicy.py
+5e53c60a360f25bfbcd4b70bb37a13cb11188618e22ae96d6f3f09b1e115fd82 - amogus.py https://github.com/AmokDEV/Dragon_Modules/blob/main/amogus.py
