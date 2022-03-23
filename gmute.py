@@ -50,6 +50,8 @@ async def ungmute(client, message):
 
 @Client.on_message(filters.group & filters.incoming)
 async def check_and_del(_, message: Message):
+    if not message.from_user:
+        return message.continue_propagation()
     if message.from_user.id in db.get("custom.gmute", "gmuted_users", []):
         try:
             await message.delete()
