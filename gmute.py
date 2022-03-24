@@ -48,11 +48,9 @@ async def ungmute(client, message):
     await message.edit(f"<b>Unmuted {get_user.first_name}, enjoy!</b>")
 
 
-@Client.on_message(filters.group & filters.incoming)
+@Client.on_message(filters.group)
 async def check_and_del(_, message: Message):
-    if not message.from_user:
-        return message.continue_propagation()
-    if message.from_user.id in db.get("custom.gmute", "gmuted_users", []):
+    if message.from_user and message.from_user.id in db.get("custom.gmute", "gmuted_users", []):
         try:
             await message.delete()
         except errors.RPCError:
