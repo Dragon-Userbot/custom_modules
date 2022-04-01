@@ -27,6 +27,7 @@ async def stupid(client: Client, message: Message):
         "<b>YOUR BRAIN</b> ➡️ 🧠\n\n           (> ^_^)>🗑",
         "<b>YOUR BRAIN</b> ➡️ 🧠\n\n           < (^_^ <)🗑",
     ]
+    
     for i in animation_ttl:
 
         await asyncio.sleep(animation_interval)
