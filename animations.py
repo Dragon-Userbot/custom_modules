@@ -136,7 +136,7 @@ async def ding(client: Client, message: Message):
 async def hypo(client: Client, message: Message):
     animation_interval = 0.3
     animation_ttl = range(0, 15)
-    await message.edit_text_text("hypo....")
+    await message.edit_text("hypo....")
     animation_chars = [
         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬛⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
@@ -156,26 +156,26 @@ async def hypo(client: Client, message: Message):
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
-        await message.edit_text_text(animation_chars[i % 15])
+        await message.edit_text(animation_chars[i % 15])
 
 
 @Client.on_message(filters.command("gangster", prefix) & filters.me)
 async def gangster(client: Client, message: Message):
-    await message.edit_text_text("EVERyBOdy")
+    await message.edit_text("EVERyBOdy")
     await asyncio.sleep(0.3)
-    await message.edit_text_text("iZ")
+    await message.edit_text("iZ")
     await asyncio.sleep(0.2)
-    await message.edit_text_text("GangSTur")
+    await message.edit_text("GangSTur")
     await asyncio.sleep(0.5)
-    await message.edit_text_text("UNtIL ")
+    await message.edit_text("UNtIL ")
     await asyncio.sleep(0.2)
-    await message.edit_text_text("I")
+    await message.edit_text("I")
     await asyncio.sleep(0.3)
-    await message.edit_text_text("ArRivE")
+    await message.edit_text("ArRivE")
     await asyncio.sleep(0.3)
-    await message.edit_text_text("🔥🔥🔥")
+    await message.edit_text("🔥🔥🔥")
     await asyncio.sleep(0.3)
-    await message.edit_text_text("EVERyBOdy iZ GangSTur UNtIL I ArRivE 🔥🔥🔥")
+    await message.edit_text("EVERyBOdy iZ GangSTur UNtIL I ArRivE 🔥🔥🔥")
 
 
 @Client.on_message(filters.command("charge", prefix) & filters.me)
@@ -187,11 +187,11 @@ async def timer_blankx(client: Client, message: Message):
     j = 10
     k = j
     for j in range(j):
-        await message.edit_text_text(txt + str(k))
+        await message.edit_text(txt + str(k))
         k = k + 10
         await asyncio.sleep(1)
     await asyncio.sleep(1)
-    await message.edit_text_text(
+    await message.edit_text(
         "`Tesla Wireless Charging (beta) Completed...\nDevice Detected: Apple iPad 13 (Space Grey Varient)\nBattery Percentage:` [100%](https://telegra.ph/file/a45aa7450c8eefed599d9.mp4) ",
         link_preview=True,)
 
