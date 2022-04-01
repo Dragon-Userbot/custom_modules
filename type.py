@@ -39,5 +39,5 @@ async def type_cmd(_, message: Message):
 
 
 modules_help["type"] = {
-    "type|typewriter [text]*": "Typing emulation. Don't use a lot of characters, you can receive a lot of floodwaits!"
+    "type</code> <code>| </code><code>typewriter [text]*": "Typing emulation. Don't use a lot of characters, you can receive a lot of floodwaits!"
 }
