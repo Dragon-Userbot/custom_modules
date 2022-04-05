@@ -24,7 +24,7 @@ from pyrogram.types import Message
 from utils.misc import modules_help, prefix
 
 
-@Client.on_message(filters.command("type", prefix) & filters.me)
+@Client.on_message(filters.command(["type","typewriter"] prefix) & filters.me)
 async def type_cmd(_, message: Message):
     text = message.text.split(maxsplit=1)[1]
     typed = ""
@@ -39,5 +39,5 @@ async def type_cmd(_, message: Message):
 
 
 modules_help["type"] = {
-    "type [text]*": "Typing emulation. Don't use a lot of characters, you can receive a lot of floodwaits!"
+    "type</code> <code>| </code><code>typewriter [text]*": "Typing emulation. Don't use a lot of characters, you can receive a lot of floodwaits!"
 }
