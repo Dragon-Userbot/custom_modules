@@ -12,9 +12,9 @@ from utils.scripts import import_library
 
 logging = import_library("logging")
 aria2p = import_library("aria2p")
-aria2c = import_library("aria2c")
+aria2c = import_library("aria2")
 import aria2p
-import aria2c
+import aria2
 import logging
 
 logging.basicConfig(level=logging.DEBUG,
