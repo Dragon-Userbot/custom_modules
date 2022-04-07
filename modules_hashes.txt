@@ -10,4 +10,4 @@ a6ff66307bb9e06383e84893eb069fe403f45ca10af1965c36a1648b2d8d97dc - qrcode.py htt
 e077b7b9b95bfc59ac039f18bdab00f56ab5ef241191b69f28d62b712a0ec056 - spotidl.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/spotidl.py
 4ac5881d925724dbc74431b9817a08a40592a6ead1437baaf264f4dc86a78d05 - ytdl.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/ytdl.py
 bd5573e211ef7f3818d7ef3298f9d652c9ed6fabbf0cd6404f75362c27f57c26 - aniquotes.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/aniquotes.py
-60a64094e250491610980f18f15567a2f41cf6be1d9eb0791fb982251d862c30 - spin.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/spin.py
+27be8d84c90e89b1d83a85da1939b8bc77eb3cfd27f59600b5a75dd6939583f6 - spin.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/spin.py
