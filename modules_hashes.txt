@@ -7,3 +7,4 @@ c3a0b2b82681f01b2aaacca1a90da26849985cbb576487faca959d01f777742f - test.py from 
 857def528e0cb02574027f13deeea56a54a753b821f9602b8c7b708024e2c8c6 - amogus.py https://github.com/AmokDEV/Dragon_Modules/blob/main/amogus.py
 4065659922b6db514f7546472bcc2e39871368b4821d40c1e8552f89021af13d - dice.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/dice.py
 a6ff66307bb9e06383e84893eb069fe403f45ca10af1965c36a1648b2d8d97dc - qrcode.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/qrcode.py
+e077b7b9b95bfc59ac039f18bdab00f56ab5ef241191b69f28d62b712a0ec056 - spotidl.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/spotidl.py
