@@ -11,3 +11,4 @@ e077b7b9b95bfc59ac039f18bdab00f56ab5ef241191b69f28d62b712a0ec056 - spotidl.py ht
 4ac5881d925724dbc74431b9817a08a40592a6ead1437baaf264f4dc86a78d05 - ytdl.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/ytdl.py
 bd5573e211ef7f3818d7ef3298f9d652c9ed6fabbf0cd6404f75362c27f57c26 - aniquotes.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/aniquotes.py
 e76881a38e84476b778bc74d4a8225d3b4b6bd6380169aedd9ef6b2682f42e72 - spin.py https://github.com/LORD-ME-CODE/DragonModules/blob/master/spin.py
+424e7129a5974c01241cf19478b07595b85898203f1f8f0d51f1266bb720cae4 - circle.py https://raw.githubusercontent.com/LORD-ME-CODE/DragonModules/master/circle.py
