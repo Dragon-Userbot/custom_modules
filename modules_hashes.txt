@@ -14,3 +14,4 @@ e76881a38e84476b778bc74d4a8225d3b4b6bd6380169aedd9ef6b2682f42e72 - spin.py https
 1cd28dc5b546e36ad206c7676a0b9599c63841b9b5db12fc395e817a6173ca62 - circle.py https://raw.githubusercontent.com/LORD-ME-CODE/DragonModules/master/circle.py
 50d0abad399984304f2e02a8e75ebac35b8c91b6ccaf8f9c3bf1da9e3d989a4d - fakeactions.py https://raw.githubusercontent.com/lord-me-code/dragonmodules/master/fakeactions.py
 7d5deb927edfa28f3c877ae908b8e5c3460cd4d34e961dad2857aa194975f892 - mafia.py https://raw.githubusercontent.com/lord-me-code/dragonmodules/master/mafia.py
+222e8f61afa1f94ad21a68c86d09352a05afc1a8b24b2b698e6111d814ab7baa - qiwi.py https://dragon-modules.cf/qiwi.py
