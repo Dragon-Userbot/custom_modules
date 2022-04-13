@@ -226,7 +226,7 @@ async def kill(client: Client, message: Message):
 
 
 @Client.on_message(filters.command("earth", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def earth(client: Client, message: Message):
 	deq = deque(list("🌏🌍🌎🌎🌍🌏🌍🌎"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -234,7 +234,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("think", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def think(client: Client, message: Message):
 	deq = deque(list("🤔🧐🤔🧐🤔🧐"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -242,7 +242,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("lmao", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def lmao(client: Client, message: Message):
 	deq = deque(list("😂🤣😂🤣😂🤣"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -250,7 +250,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("clock", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def clock(client: Client, message: Message):
 	deq = deque(list("🕙🕘🕗🕖🕕🕔🕓🕒🕑🕐🕛"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -258,7 +258,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("heart", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def heart(client: Client, message: Message):
 	deq = deque(list("❤️🧡💛💚💙💜🖤"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -266,7 +266,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("gym", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def gym(client: Client, message: Message):
 	deq = deque(list("🏃‍🏋‍🤸‍🏃‍🏋‍🤸‍🏃‍🏋‍🤸‍"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -274,7 +274,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("moon", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def moon(client: Client, message: Message):
 	deq = deque(list("🌗🌘🌑🌒🌓🌔🌕🌖‍"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -282,7 +282,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("stars", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def stars(client: Client, message: Message):
 	deq = deque(list("🦋✨🦋✨🦋✨🦋✨‍"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -290,7 +290,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("boxs", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def boxs(client: Client, message: Message):
 	deq = deque(list("🟥🟧🟨🟩🟦🟪🟫⬛⬜"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -298,7 +298,7 @@ async def _(client: Client, message: Message):
 		deq.rotate(1)
 
 @Client.on_message(filters.command("rain", prefix) & filters.me)
-async def _(client: Client, message: Message):
+async def rain(client: Client, message: Message):
 	deq = deque(list("🌬☁️🌩🌨🌧🌦🌥⛅🌤"))
 	for _ in range(48):
 		await asyncio.sleep(0.1)
@@ -416,5 +416,4 @@ modules_help["animations"] = {
     "earth": "Fun animation try yourself to know more",
     "smoon": "Fun animation try yourself to know more",
     "tmoon": "Fun animation try yourself to know more",
-    "deploy": "heroku deploying animation",
 }
