@@ -416,5 +416,5 @@ modules_help["animations"] = {
     "earth": "Fun animation try yourself to know more",
     "smoon": "Fun animation try yourself to know more",
     "tmoon": "Fun animation try yourself to know more",
-    "deploy": "Fun animation try yourself to know more",
+    "deploy": "heroku deploying animation",
 }
