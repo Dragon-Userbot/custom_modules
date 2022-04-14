@@ -20,4 +20,4 @@ e76881a38e84476b778bc74d4a8225d3b4b6bd6380169aedd9ef6b2682f42e72 - spin.py https
 6c7fc7cc8021a2b3382da34eddfe5a64582b1c6d14d91ce5a8fc3bbee2c0778b - carbon.py https://dragon-modules.cf/carbon.py
 f4ad4645a14c43aef126cb927eab7c956fac97c03b9e7ab24e63f9d2eb2f9658 - backup.py https://dragon-modules.cf/backup.py
 030fb2dd5ef2763836c9adc53c39e9da26b2d7772b5499cb2f909eb16467d3ed - search.py https://dragon-modules.cf/search.py
-99dad47303ef48049eae43f0461da2eae13d81c0675b912f641ead2ae15a9c7b - serverinfo.py https://dragon-modules.cf/serverinfo.py
+41cebba2a1dd94bab0df9c5e59f0e6ca372e021a1ae692d7268fa6b3cbee1dae - serverinfo.py https://dragon-modules.cf/serverinfo.py
