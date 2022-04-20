@@ -46,7 +46,7 @@ def get_readable_time(seconds: int) -> str:
 async def alive(client,message):
     start_time = time.time()
     uptime = get_readable_time((time.time() - StartTime))
-    reply_msg = f"![Developer](https://github.com/Dragon-Userbot/Dragon-Userbot)\n"
+    reply_msg = f"!<a href = https://github.com/Dragon-Userbot>Dragon-Userbot</a>\n"
     reply_msg += f"<b>Python Version:</b> <code>{__python_version__}</code>\n"
     reply_msg += f"<b>Pyrogram Version:</b> <code>{__pyro_version__}</code>\n"
     end_time = time.time()

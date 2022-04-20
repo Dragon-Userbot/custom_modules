@@ -57,7 +57,7 @@ async def bombs(client: Client, message: Message):
     await asyncio.sleep(0.5)
     await message.edit_text("▪️▪️▪️▪️ \n▪️▪️▪️▪️ \n▪️▪️▪️▪️ \n▪️▪️▪️▪️ \n😵😵😵😵 \n")
     await asyncio.sleep(0.5)
-    await message.edit_text("`RIP PLOXXX......`")
+    await message.edit_text("<b>RIP PLOXXX......</b>")
     await asyncio.sleep(2)
 
 
@@ -68,24 +68,24 @@ async def cell(client: Client, message: Message):
     animation_ttl = range(0, 18)
     await message.edit_text("Calling Pavel Durov (ceo of telegram)......")
     animation_chars = [
-        "`Connecting To Telegram Headquarters...`",
-        "`Call Connected.`",
-        "`Telegram: Hello This is Telegram HQ. Who is this?`",
-        f"`Me: Yo this is` Dragon ,`Please Connect me to my lil bro,Pavel Durov `",
-        "`User Authorised.`",
-        "`Calling Shivamani `  `At +916969696969`",
-        "`Private  Call Connected...`",
-        "`Me: Hello Sir, Please Ban This Telegram Account.`",
-        "`Shivamani : May I Know Who Is This?`",
-        f"`Me: Yo Brah, I Am` Dragon ",
-        "`Shivamani : OMG!!! Long time no see, Wassup cat...\nI'll Make Sure That Guy Account Will Get Blocked Within 24Hrs.`",
-        "`Me: Thanks, See You Later Brah.`",
-        "`Shivamani : Please Don't Thank Brah, Telegram Is Our's. Just Gimme A Call When You Become Free.`",
-        "`Me: Is There Any Issue/Emergency???`",
-        "`Shivamani : Yes Sur, There Is A Bug In Telegram v69.6.9.\nI Am Not Able To Fix It. If Possible, Please Help Fix The Bug.`",
-        "`Me: Send Me The App On My Telegram Account, I Will Fix The Bug & Send You.`",
-        "`Shivamani : Sure Sur \nTC Bye Bye :)`",
-        "`Private Call Disconnected.`",
+        "<b>Connecting To Telegram Headquarters...</b>",
+        "<b>Call Connected.</b>",
+        "<b>Telegram: Hello This is Telegram HQ. Who is this?</b>",
+        f"<b>Me: Yo this is Dragon ,Please Connect me to my lil bro,Pavel Durov </b>",
+        "<b>User Authorised.</b>",
+        "<b>Calling Shivamani </b>  <code>At +916969696969</code>",
+        "<b>Private  Call Connected...</b>",
+        "<b>Me: Hello Sir, Please Ban This Telegram Account.</b>",
+        "<b>Shivamani : May I Know Who Is This?</b>",
+        f"<b>Me: Yo Brah, I Am Dragon</b>",
+        "<b>Shivamani : OMG!!! Long time no see, Wassup cat...\nI'll Make Sure That Guy Account Will Get Blocked Within 24Hrs.</b>",
+        "<b>Me: Thanks, See You Later Brah.</b>",
+        "<b>Shivamani : Please Don't Thank Brah, Telegram Is Our's. Just Gimme A Call When You Become Free.</b>",
+        "<b>Me: Is There Any Issue/Emergency???</b>",
+        "<b>Shivamani : Yes Sur, There Is A Bug In Telegram v69.6.9.\nI Am Not Able To Fix It. If Possible, Please Help Fix The Bug.</b>",
+        "<b>Me: Send Me The App On My Telegram Account, I Will Fix The Bug & Send You.</b>",
+        "<b>Shivamani : Sure Sur \nTC Bye Bye :)</b>",
+        "<b>Private Call Disconnected.</b>",
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
@@ -185,7 +185,7 @@ async def gangster(client: Client, message: Message):
 async def timer_blankx(client: Client, message: Message):
     txt = (
         message.text[10:]
-        + "\n\n`Tesla Wireless Charging (beta) Started...\nDevice Detected: Apple iPad 13\nBattery Percentage:` "
+        + "\n\n<b>Tesla Wireless Charging (beta) Started...\nDevice Detected: Apple iPad 13\nBattery Percentage:</b> "
     )
     j = 10
     k = j
@@ -195,10 +195,10 @@ async def timer_blankx(client: Client, message: Message):
         await asyncio.sleep(1)
     await asyncio.sleep(1)
     await message.edit_text(
-        "`Tesla Wireless Charging (beta) Completed...\nDevice Detected: Apple iPad 13 (Space Grey Varient)\nBattery Percentage:` [100%](https://telegra.ph/file/a45aa7450c8eefed599d9.mp4) ",
+        "<b>Tesla Wireless Charging (beta) Completed...\nDevice Detected: Apple iPad 13 (Space Grey Varient)\nBattery Percentage:</b> [100%](https://telegra.ph/file/a45aa7450c8eefed599d9.mp4) ",
         link_preview=True,)
-        
-#
+   
+
 @Client.on_message(filters.command("kill", prefix) & filters.me)
 async def kill(client: Client, message: Message):
     animation_interval = 0.3
