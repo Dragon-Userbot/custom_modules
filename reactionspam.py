@@ -5,138 +5,101 @@ from pyrogram.types import Message
 from utils.misc import modules_help, prefix
 from utils.scripts import format_exc
 
-@Client.on_message(filters.command("vlike", prefix) & filters.me)
-async def vlike(client: Client, message: Message):
+@Client.on_message(filters.command("reactspam", prefix) & filters.me)
+async def reactspam(client: Client, message: Message):
 	amount = int(message.command[1])
-	
+	reaction = " ".join(message.command[2:])
+	await message.edit(f"<b>One moment...</b>")
 	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "👍")
-		except:
-        		pass
-@Client.on_message(filters.command("vdislike", prefix) & filters.me)
-async def vdislike(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "👎")
-		except:
-        		pass
+		if reaction == "👍":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "👍")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "👎":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "👎")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "❤️":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "❤️")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "🔥":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "🔥")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "🥰":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "🥰")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "👏":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "👏")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "😁":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "😁")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "🤔":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "🤔")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "🤯":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "🤯")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "😱":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "😱")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "🤬":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "🤬")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "😢":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "😢")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "🎉":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "🎉")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "🤩":
+			try:
+        			await client.send_reaction(message.chat.id, message.message_id-i, "🤩")
 
-@Client.on_message(filters.command("vheart", prefix) & filters.me)
-async def vheart(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "❤️")
-		except:
-        		pass
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "🤮":
+			try:
+				await client.send_reaction(message.chat.id, message.message_id-i, "🤮")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		elif reaction == "💩":
+			try:
+				await client.send_reaction(message.chat.id, message.message_id-i, "💩")
+			except Exception as e:
+				return await message.edit(format_exc(e))
+		else:
+			return await message.edit(f"<b>It has to be an emoji...</b>")
 
-@Client.on_message(filters.command("vfire", prefix) & filters.me)
-async def vfire(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "🔥")
-		except:
-        		pass
-
-@Client.on_message(filters.command("vlovely", prefix) & filters.me)
-async def vlovely(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "🥰")
-		except:
-        		pass
-
-@Client.on_message(filters.command("vapplaud", prefix) & filters.me)
-async def vapplaud(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "👏")
-		except:
-        		pass
-
-@Client.on_message(filters.command("vsmile", prefix) & filters.me)
-async def vsmile(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "😁")
-		except:
-        		pass
-
-@Client.on_message(filters.command("vthinking", prefix) & filters.me)
-async def vthinking(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "🤔")
-		except:
-        		pass
-
-@Client.on_message(filters.command("vpoop", prefix) & filters.me)
-async def vpoop(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "💩")
-		except:
-        		pass
-
-@Client.on_message(filters.command("vastonish", prefix) & filters.me)
-async def vastonish(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "😱")
-		except:
-        		pass
-
-@Client.on_message(filters.command("vanger", prefix) & filters.me)
-async def vanger(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "🤬")
-		except:
-        		pass
-
-@Client.on_message(filters.command("vsad", prefix) & filters.me)
-async def vsad(client: Client, message: Message):
-	amount = int(message.command[1])
-	
-	for i in range(amount):
-		try:
-        		await client.send_reaction(message.chat.id, message.message_id-i, "😢")
-		except:
-        		pass
+	await message.edit(f"<b>Done!</b>")
 
 modules_help["reactionspam"] = {
-	"vlike [amount]": "spam like reaction to a message",
-	"vdislike [amount]": "spam dislike reaction to a message",
-	"vheart [amount]": "spam heart reaction to a message",
-	"vfire [amount]": "spam fire reaction to a message",
-	"vlovely [amount]": "spam lovely reaction to a message",
-	"vapplaud [amount]": "spam applaud reaction to a message",
-	"vsmile [amount]": "spam smile reaction to a message",
-	"vthinking [amount]": "spam thinking reaction to a message",
-	"vpoop [amount]": "spam poop reaction to a message",
-	"vastonish [amount]": "spam astonish reaction to a message",
-	"vanger [amount]": "spam anger reaction to a message",
-	"vsad [amount]": "spam sad reaction to a message",
-	
+	"reactspam [amount]* [emoji]*": "spam reactions"
+
 }
-	
+
+
