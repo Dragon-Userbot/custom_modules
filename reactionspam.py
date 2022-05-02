@@ -21,7 +21,7 @@ async def vlike(client: Client, message: Message):
 async def vdislike(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "👎")
 		except:
@@ -31,7 +31,7 @@ async def vdislike(client: Client, message: Message):
 async def vheart(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "❤️")
 		except:
@@ -41,7 +41,7 @@ async def vheart(client: Client, message: Message):
 async def vfire(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "🔥")
 		except:
@@ -51,7 +51,7 @@ async def vfire(client: Client, message: Message):
 async def vlovely(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "🥰")
 		except:
@@ -61,7 +61,7 @@ async def vlovely(client: Client, message: Message):
 async def vapplaud(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "👏")
 		except:
@@ -71,7 +71,7 @@ async def vapplaud(client: Client, message: Message):
 async def vsmile(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "😁")
 		except:
@@ -81,7 +81,7 @@ async def vsmile(client: Client, message: Message):
 async def vthinking(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "🤔")
 		except:
@@ -91,7 +91,7 @@ async def vthinking(client: Client, message: Message):
 async def vpoop(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "💩")
 		except:
@@ -101,7 +101,7 @@ async def vpoop(client: Client, message: Message):
 async def vastonish(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "😱")
 		except:
@@ -111,7 +111,7 @@ async def vastonish(client: Client, message: Message):
 async def vanger(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "🤬")
 		except:
@@ -121,7 +121,7 @@ async def vanger(client: Client, message: Message):
 async def vsad(client: Client, message: Message):
 	amount = int(message.command[1])
 	
-	for msg in range(amount):
+	for i in range(amount):
 		try:
         		await client.send_reaction(message.chat.id, message.message_id-i, "😢")
 		except:
