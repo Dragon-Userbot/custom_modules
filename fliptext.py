@@ -89,7 +89,7 @@ REPLACEMENT_MAP = {
 
 @Client.on_message(filters.command("flip", prefix) & filters.me)
 async def flip(client: Client, message: Message):
-	text = message.text.split("flip", maxsplit=1)[1]
+	text = " ".join(message.command[1:])
 	final_str = ""
 	for char in text:
 		if char in REPLACEMENT_MAP.keys():
