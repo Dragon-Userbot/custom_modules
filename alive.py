@@ -43,7 +43,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 @Client.on_message(filters.command("alive", prefix) & filters.me)
-async def alive(client,message):
+async def alive(client, message):
     start_time = time.time()
     uptime = get_readable_time((time.time() - StartTime))
     reply_msg = f"!<a href = https://github.com/Dragon-Userbot>Dragon-Userbot</a>\n"
@@ -53,7 +53,8 @@ async def alive(client,message):
     reply_msg += f"\nUptime: <code>{uptime}</code>"
     await message.delete()
     await client.send_message(message.chat.id, reply_msg, disable_web_page_preview=True)
-    
+
+
 modules_help["alive"] = {
     "alive": " check bot alive status",
 }

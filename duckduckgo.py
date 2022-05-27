@@ -3,7 +3,6 @@ from pyrogram.types import Message
 from utils.misc import modules_help, requirements_list, prefix
 
 
-
 @Client.on_message(filters.command("duck", prefix) & filters.me)
 async def duckgo(client: Client, message: Message):
     input_str = " ".join(message.command[1:])

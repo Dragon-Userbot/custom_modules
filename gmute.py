@@ -50,7 +50,9 @@ async def ungmute(client, message):
 
 @Client.on_message(filters.group)
 async def check_and_del(_, message: Message):
-    if message.from_user and message.from_user.id in db.get("custom.gmute", "gmuted_users", []):
+    if message.from_user and message.from_user.id in db.get(
+        "custom.gmute", "gmuted_users", []
+    ):
         try:
             await message.delete()
         except errors.RPCError:
