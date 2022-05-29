@@ -1,4 +1,5 @@
 import os
+from contextlib import suppress
 
 import ffmpeg
 from pyrogram import Client, filters
@@ -62,8 +63,12 @@ async def volume(_, message):
 @Client.on_message(filters.command("join", prefix) & filters.me)
 @init_client
 async def start(_, message: Message):
+    chat_id = message.command[1] if len(message.command) > 1 else message.chat.id
+    with suppress(ValueError):
+        chat_id = int(chat_id)
+
     try:
-        await group_call.start(message.chat.id)
+        await group_call.start(chat_id)
         await message.edit("<b>Joining successfully!</b>")
     except Exception as e:
         await message.edit(f"<b>An unexpected error has occurred: <code>{e}</code></b>")
@@ -81,7 +86,7 @@ async def stop(_, message: Message):
             "The bot will try to exit the voice chat by restarting itself,"
             "the bot will be unavailable for the next 4 seconds</b>"
         )
-        await restart()
+        restart()
 
 
 @Client.on_message(filters.command("stop", prefix) & filters.me)
@@ -122,7 +127,7 @@ async def resume(_, message: Message):
 modules_help["voice_chat"] = {
     "play [reply]*": "Play audio in replied message",
     "volume [1 – 200]": "Set the volume level from 1 to 200",
-    "join": "Join the voice chat",
+    "join [chat_id]": "Join the voice chat",
     "leave_voice": "Leave voice chat",
     "stop": "Stop playback",
     "vmute": "Mute the userbot",
