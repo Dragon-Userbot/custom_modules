@@ -1,17 +1,14 @@
 from utils.scripts import import_library
 from utils.misc import modules_help, prefix
-from pyrogram.types import Message
 from pyrogram import Client, filters
 
-
 googletrans = import_library("googletrans", "googletrans==4.0.0rc1")
-
 from googletrans import Translator
 
 trl = Translator()
 
 
-@Client.on_message(filters.command(["trans"], prefix) & filters.me)
+@Client.on_message(filters.command(["tr", "trans"], prefix) & filters.me)
 async def translate(_client, message):
     await message.edit_text("<b>Translating text...</b>")
     if message.reply_to_message and (
@@ -19,7 +16,7 @@ async def translate(_client, message):
     ):
         if len(message.text.split()) == 1:
             await message.edit(
-                f"<b>Usage: Reply to a message, then <code>{prefix}trans [lang]*</code></b>"
+                f"<b>Usage: Reply to a message, then <code>{prefix}tr [lang]*</code></b>"
             )
             return
         target = message.text.split()[1]
@@ -40,7 +37,7 @@ async def translate(_client, message):
         )
     else:
         if len(message.text.split()) <= 2:
-            await message.edit("<b>Usage: <code>.tr [lang]* [text]*</code></b>")
+            await message.edit(f"<b>Usage: <code>{prefix}tr [lang]* [text]*</code></b>")
             return
         target = message.text.split(None, 2)[1]
         text = message.text.split(None, 2)[2]
@@ -61,7 +58,6 @@ async def translate(_client, message):
 async def translatedl(_client, message):
     dtarget = message.text.split(None, 2)[1]
     dtext = message.text.split(None, 2)[2]
-    ddetectlang = trl.detect(dtext)
     try:
         dtekstr = trl.translate(dtext, dest=dtarget)
     except ValueError as err:
@@ -71,6 +67,6 @@ async def translatedl(_client, message):
 
 
 modules_help["translator"] = {
-    "trans": "[lang]* [text/reply]* translate message",
-    "transdl": f"[lang]* [your text]* short variant of {prefix}trans",
+    "tr": "[lang]* [text/reply]* translate message",
+    "trdl": f"[lang]* [your text]* short variant of {prefix}tr",
 }

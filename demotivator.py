@@ -80,10 +80,6 @@ async def demotivator(client: Client, message: Message):
         await message.edit("<b>Need to answer the photo/sticker</b>")
 
 
-modules_help.append(
-    {
-        "demotivator": [
-            {"dem [text]*": "Reply to the picture to make a demotivator out of it"}
-        ]
-    }
-)
+modules_help["demotivator"] = {
+    "dem [text]*": "Reply to the picture to make a demotivator out of it"
+}

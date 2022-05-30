@@ -26,4 +26,6 @@ async def random_stiker(client, message):
     remove("f.webp")
 
 
-modules_help.append({"f": [{"f": "Send f to pay respect"}]})
+modules_help["f"] = {
+    "f": "Send f to pay respect",
+}
