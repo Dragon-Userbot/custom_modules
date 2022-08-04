@@ -25,7 +25,7 @@ async def prussian_cmd(_, message: Message):
     
     for i in range(0, len(splitted), random.randint(2, 3)):
         for j in range(1, 2):
-            splitted.insert(i, random.choice(russian_pro_words))
+            splitted.insert(i, random.choice(words))
 
     await message.edit(" ".join(splitted))
 
