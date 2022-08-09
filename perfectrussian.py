@@ -14,14 +14,8 @@ async def prussian_cmd(_, message: Message):
         "сука",
         "нахуй",
         "блять",
-        "блядь",
         "пиздец",
-        "еблан",
-        "уебан",
-        "уебок",
-        "пизда",
-        "очко",
-        "хуй",
+        "однохуйственно"
     ]
     splitted = message.reply_to_message.text.split()
     
