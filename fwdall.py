@@ -19,7 +19,7 @@ async def forward(client: Client, message: Message):
             return
         msgs = []
         async for msg in client.iter_history(message.chat.id, reverse=True):
-            msgs.append(msg.message_id)
+            msgs.append(msg.id)
             if len(msgs) >= 100:
                 try:
                     await client.forward_messages(target.id, message.chat.id, msgs)

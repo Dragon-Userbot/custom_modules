@@ -199,7 +199,7 @@ async def now(client: Client, message: Message):
                 🔊 Громкость: {volume}
                 🎵 Плейлист: <a href="{playlist_link}">{playlist_name}</a> (<code>{playlist_id}</code>)
                 🫂 Владелец плейлиста: {playlist_owner}
-                
+
                 <code>{bar}</code></b>
             """
         )
@@ -216,7 +216,7 @@ async def now(client: Client, message: Message):
                         Document._parse(client, r["document"], "audio")["file_id"],
                         res,
                         reply_to_message_id=(
-                            message.reply_to_message.message_id
+                            message.reply_to_message.id
                             if message.reply_to_message is not None
                             else None
                         ),
@@ -239,7 +239,7 @@ async def now(client: Client, message: Message):
                 <b>🎶 Сейчас играет: <i>{", ".join(artists)} - <a href='{track_url}'>{track}</a> <a href="https://song.link/s/{track_id}">(другие платформы)</a></i>
                 📱 Устройство: <code>{device}</code>
                 🔊 Громкость: {volume}
-                    
+
                 <code>{bar}</code></b>
             """
         )
@@ -256,7 +256,7 @@ async def now(client: Client, message: Message):
                         Document._parse(client, r["document"], "audio")["file_id"],
                         res,
                         reply_to_message_id=(
-                            message.reply_to_message.message_id
+                            message.reply_to_message.id
                             if message.reply_to_message is not None
                             else None
                         ),
@@ -277,7 +277,7 @@ async def now(client: Client, message: Message):
                         Document._parse(client, r["document"], "audio")["file_id"],
                         res,
                         reply_to_message_id=(
-                            message.reply_to_message.message_id
+                            message.reply_to_message.id
                             if message.reply_to_message is not None
                             else None
                         ),
@@ -298,7 +298,7 @@ async def now(client: Client, message: Message):
                         Document._parse(client, r["document"], "audio")["file_id"],
                         res,
                         reply_to_message_id=(
-                            message.reply_to_message.message_id
+                            message.reply_to_message.id
                             if message.reply_to_message is not None
                             else None
                         ),
