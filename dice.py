@@ -17,10 +17,11 @@ async def dice_text(client: Client, message: Message):
     try:
         message.dice = type("bruh", (), {"value": 0})()
         while message.dice.value != value:
-            message = (await asyncio.gather(
-                message.delete(),
-                client.send_dice(message.chat.id)
-            ))[1]
+            message = (
+                await asyncio.gather(
+                    message.delete(), client.send_dice(message.chat.id)
+                )
+            )[1]
     except Exception as e:
         await message.edit(format_exc(e))
 

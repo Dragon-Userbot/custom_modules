@@ -44,9 +44,7 @@ async def demotivator(client: Client, message: Message):
                 (299, 412), text, font=text_font, fill=(255, 255, 255), anchor="ms"
             )
             im.save(f"downloads/{message.id}.png")
-            await message.reply_to_message.reply_photo(
-                f"downloads/{message.id}.png"
-            )
+            await message.reply_to_message.reply_photo(f"downloads/{message.id}.png")
             await message.delete()
         elif message.reply_to_message.sticker:
             if not message.reply_to_message.sticker.is_animated:

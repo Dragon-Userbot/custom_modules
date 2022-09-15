@@ -34,7 +34,9 @@ async def calc(_, message: Message):
                 f"<i>{args}</i><b>=</b><code>{result}</code>", parse_mode=ParseMode.HTML
             )
     except Exception as e:
-        await message.edit(f"<i>{args}=</i><b>=</b><code>{e}</code>", parse_mode=ParseMode.HTML)
+        await message.edit(
+            f"<i>{args}=</i><b>=</b><code>{e}</code>", parse_mode=ParseMode.HTML
+        )
 
 
 modules_help["calculator"] = {

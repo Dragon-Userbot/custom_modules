@@ -18,7 +18,9 @@ async def voice_text(client: Client, message: Message):
             await client.unblock_user("@voicybot")
             await message.reply_to_message.forward("@voicybot")
             await asyncio.sleep(5)
-            messages = [msg async for msg in client.get_chat_history("@voicybot", limit=1)]
+            messages = [
+                msg async for msg in client.get_chat_history("@voicybot", limit=1)
+            ]
             await client.read_chat_history("@voicybot")
             text = (
                 messages[0]

@@ -225,9 +225,7 @@ async def quotes(client: Client, message: Message):
             template_msg.paste(im, (110, 0))
             template_msg.paste(output, (0, 0))
             template_msg.save(f"downloads/{message.id}.webp")
-        await message.reply_to_message.reply_document(
-            f"downloads/{message.id}.webp"
-        )
+        await message.reply_to_message.reply_document(f"downloads/{message.id}.webp")
         await message.delete()
 
     if not message.reply_to_message.text and message.reply_to_message.from_user:
@@ -607,9 +605,7 @@ async def quotes(client: Client, message: Message):
             template_msg.paste(im, (110, 0))
             template_msg.paste(output, (0, 0))
             template_msg.save(f"downloads/{message.id}.webp")
-        await message.reply_to_message.reply_document(
-            f"downloads/{message.id}.webp"
-        )
+        await message.reply_to_message.reply_document(f"downloads/{message.id}.webp")
         await message.delete()
     if not message.reply_to_message.text and message.reply_to_message.sender_chat:
         if message.reply_to_message.sender_chat.photo:

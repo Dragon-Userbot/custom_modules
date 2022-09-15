@@ -19,9 +19,7 @@ def haste(client: Client, message: Message):
         "{}/documents".format(BASE), data=reply.text.encode("UTF-8")
     ).json()
 
-    message.reply(
-        "{}/{}.py".format(BASE, result["key"]), reply_to_message_id=reply.id
-    )
+    message.reply("{}/{}.py".format(BASE, result["key"]), reply_to_message_id=reply.id)
 
 
 modules_help["haste"] = {"haste": "reply to text will upload text to hastebin ;)"}
