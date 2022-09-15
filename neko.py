@@ -41,7 +41,7 @@ async def neko(_, message: Message):
     try:
         await message.edit(f"{get_neko_media(query)}", disable_web_page_preview=False)
     except Exception as e:
-        await message.edit(format_exc(e, hint="maybe you entered wrong type"))
+        await message.edit(format_exc(e, suffix="maybe you entered wrong type"))
 
 
 @Client.on_message(filters.command(["nekotypes", "neko_types"], prefix) & filters.me)

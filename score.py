@@ -1,6 +1,7 @@
 from utils.scripts import import_library
 from utils.misc import modules_help, prefix
 from pyrogram import Client, filters
+from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.types import Message
 from bs4 import BeautifulSoup
 from typing import Union
@@ -31,7 +32,7 @@ async def score(_, message: Message):
     sed = "".join(match.get_text() + "\n\n" for match in result)
     await message.edit(
         f"<b>Match information:</b><u> Credits Friday team</u>\n\n\n<code>{sed}</code>",
-        parse_mode="html",
+        parse_mode=ParseMode.HTML,
     )
 
 

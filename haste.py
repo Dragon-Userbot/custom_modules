@@ -20,7 +20,7 @@ def haste(client: Client, message: Message):
     ).json()
 
     message.reply(
-        "{}/{}.py".format(BASE, result["key"]), reply_to_message_id=reply.message_id
+        "{}/{}.py".format(BASE, result["key"]), reply_to_message_id=reply.id
     )
 
 
