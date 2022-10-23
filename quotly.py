@@ -8,7 +8,7 @@ from utils.misc import modules_help, prefix
 
 
 
-@Client.on_message(filters.command("q", prefix) & filters.me)
+@Client.on_message(filters.command("qoutly", prefix) & filters.me)
 async def quotly(client: Client, message: Message):
     if not message.reply_to_message:
         await message.edit("Reply to any users text message")
