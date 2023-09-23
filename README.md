@@ -2,7 +2,7 @@
 
 
 <p>To add your module to the bot, create a pull request in the <a href='https://github.com/Dragon-Userbot/custom_modules/'>custom_modules</a> repository</p>
-<p>Either send the module and its hash to me (<a href='https://t.me/john_phonk'>@john_phonk</a>) details in this <a href='https://t.me/Dragon_Userbot/65'>post</a></p>
+
 
 ```python3
 from pyrogram import Client, filters
